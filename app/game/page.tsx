@@ -1,30 +1,26 @@
 "use client"
-
-import React from "react"
-
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import {
-  ChevronDown,
-  Search,
-  Bell,
-  User,
-  Moon,
   ArrowLeft,
   ChevronRight,
+  ChevronDown,
+  Search,
+  User,
   MoreHorizontal,
   X,
-  AlertTriangle,
   CheckCircle2,
+  Circle,
 } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Sidebar from "@/components/sidebar"
+import TopNavigation from "@/components/top-navigation"
 
 export default function GamePage() {
   const [carouselView, setCarouselView] = useState("stats")
   const [isCarouselPaused, setIsCarouselPaused] = useState(false)
   const [pinnedFixtures, setPinnedFixtures] = useState([{ id: 1, homeTeam: "LAL", awayTeam: "BOS", status: "In Play" }])
-  const [scoreboardTab, setScoreboardTab] = useState("alerts")
+  const [scoreboardTab, setScoreboardTab] = useState("scoreboard")
   const [activeMarketFilter, setActiveMarketFilter] = useState("all")
   const [expandedSections, setExpandedSections] = useState({
     moneyline: true,
@@ -37,6 +33,8 @@ export default function GamePage() {
     assists: false,
     threePointers: false,
   })
+
+  const [expandedMarketClass, setExpandedMarketClass] = useState(null)
 
   // Add a new state for the alert details modal
   const [showAlertDetailsModal, setShowAlertDetailsModal] = useState(false)
@@ -203,102 +201,6 @@ export default function GamePage() {
         previousAlerts: 0,
       },
     },
-    {
-      id: 5,
-      market: "LeBron James Points",
-      homeTeam: "BOS",
-      awayTeam: "BKN",
-      date: "10 Oct",
-      badge: "ALM",
-      time: "9m",
-      taken: "1.222",
-      current: "1.222",
-      marketAv: "1.333",
-      comp: "1.444",
-      recommendation: "Close market",
-      severity: "high",
-      details: {
-        marketId: "LBJ-PTS-O35.5",
-        timestamp: "2023-10-10T15:41:00Z",
-        triggerReason: "Suspicious betting pattern",
-        liability: "$55,340.25",
-        stakeFactor: "2.2x",
-        riskLevel: "Critical",
-        previousAlerts: 5,
-      },
-    },
-    {
-      id: 6,
-      market: "LeBron James Points",
-      homeTeam: "BOS",
-      awayTeam: "BKN",
-      date: "10 Oct",
-      badge: "ALM",
-      time: "9m",
-      taken: "1.222",
-      current: "1.222",
-      marketAv: "1.333",
-      comp: "1.444",
-      recommendation: "No action required",
-      severity: "low",
-      details: {
-        marketId: "LBJ-PTS-U35.5",
-        timestamp: "2023-10-10T15:40:00Z",
-        triggerReason: "Routine check",
-        liability: "$12,780.45",
-        stakeFactor: "0.7x",
-        riskLevel: "Low",
-        previousAlerts: 0,
-      },
-    },
-    {
-      id: 7,
-      market: "LeBron James Points",
-      homeTeam: "BOS",
-      awayTeam: "BKN",
-      date: "10 Oct",
-      badge: "ALM",
-      time: "9m",
-      taken: "1.222",
-      current: "1.222",
-      marketAv: "1.333",
-      comp: "1.444",
-      recommendation: "Adjust price to 1.38",
-      severity: "medium",
-      details: {
-        marketId: "LBJ-PTS-O20.5",
-        timestamp: "2023-10-10T15:39:00Z",
-        triggerReason: "Market average shift",
-        liability: "$22,450.60",
-        stakeFactor: "1.3x",
-        riskLevel: "Medium",
-        previousAlerts: 1,
-      },
-    },
-    {
-      id: 8,
-      market: "LeBron James Points",
-      homeTeam: "BOS",
-      awayTeam: "BKN",
-      date: "10 Oct",
-      badge: "ALM",
-      time: "9m",
-      taken: "1.222",
-      current: "1.222",
-      marketAv: "1.333",
-      comp: "1.444",
-      recommendation: "Suspend market",
-      severity: "high",
-      details: {
-        marketId: "LBJ-PTS-U20.5",
-        timestamp: "2023-10-10T15:38:00Z",
-        triggerReason: "Rapid price movement",
-        liability: "$35,670.90",
-        stakeFactor: "1.6x",
-        riskLevel: "High",
-        previousAlerts: 2,
-      },
-    },
   ]
 
   const toggleSection = (section) => {
@@ -306,6 +208,14 @@ export default function GamePage() {
       ...expandedSections,
       [section]: !expandedSections[section],
     })
+  }
+
+  const toggleMarketClassExpansion = (marketClass) => {
+    if (expandedMarketClass === marketClass) {
+      setExpandedMarketClass(null)
+    } else {
+      setExpandedMarketClass(marketClass)
+    }
   }
 
   const addFixture = (fixture) => {
@@ -365,38 +275,7 @@ export default function GamePage() {
 
       <div className="flex-1">
         {/* Top Navigation */}
-        <div className="flex items-center justify-between border-b border-[#dcdddf] px-4 py-3">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <div className="font-medium">MLB</div>
-              <div className="absolute -top-1 -right-3 bg-[#eb6a2e] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                2
-              </div>
-            </div>
-            <div className="font-medium">NBA</div>
-            <div className="font-medium">NFL</div>
-            <div className="font-medium">NCAAB</div>
-            <div className="relative">
-              <div className="font-medium">NCAAF</div>
-              <div className="absolute -top-1 -right-3 bg-[#eb6a2e] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                1
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <div className="text-sm">Global Tools</div>
-            <Link href="/alerts" className="relative">
-              <Bell className="h-5 w-5" />
-              <div className="absolute -top-1 -right-1 bg-[#eb6a2e] text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                5
-              </div>
-            </Link>
-            <Search className="h-5 w-5" />
-            <Moon className="h-5 w-5" />
-            <User className="h-5 w-5" />
-          </div>
-        </div>
+        <TopNavigation />
 
         <div className="max-w-7xl mx-auto p-4">
           {/* Back Button */}
@@ -472,6 +351,16 @@ export default function GamePage() {
                 onClick={() => setScoreboardTab("liabilities")}
               >
                 Liabilities and Stake Factor
+              </button>
+              <button
+                className={`px-4 py-2 text-sm rounded-md ${
+                  scoreboardTab === "suspension"
+                    ? "bg-white text-[#eb6a2e] shadow-sm"
+                    : "text-[#5f6368] hover:text-[#2b2c2d]"
+                }`}
+                onClick={() => setScoreboardTab("suspension")}
+              >
+                Suspension View
               </button>
               <button
                 className={`px-4 py-2 text-sm rounded-md ${
@@ -644,6 +533,338 @@ export default function GamePage() {
             </div>
           )}
 
+          {/* Suspension View Content */}
+          {scoreboardTab === "suspension" && (
+            <div className="bg-white border border-[#dcdddf] rounded-md overflow-hidden mb-6">
+              <div className="p-4 border-b border-[#dcdddf]">
+                <h3 className="text-lg font-medium mb-2">Market Suspension Status</h3>
+                <p className="text-sm text-[#5f6368] mb-4">
+                  Overview of market suspension status from market class to selection level.
+                </p>
+
+                {/* Legend */}
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-4 bg-[#62c11e] rounded"></div>
+                    <span className="text-xs">Open</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-4 bg-[#FFC107] rounded"></div>
+                    <span className="text-xs">Partially Suspended</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-4 h-4 bg-[#F44336] rounded"></div>
+                    <span className="text-xs">Fully Suspended</span>
+                  </div>
+                </div>
+
+                {/* Market Class Level */}
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium mb-2">Market Class</h4>
+                  <div className="flex gap-2 flex-wrap">
+                    <div
+                      className="flex-1 min-w-[120px] p-2 bg-[#62c11e] bg-opacity-20 border border-[#62c11e] rounded text-center cursor-pointer hover:bg-opacity-30"
+                      onClick={() => toggleMarketClassExpansion("fixture")}
+                    >
+                      <div className="text-xs font-medium">Fixture</div>
+                      <div className="text-xs text-[#5f6368]">100% Open</div>
+                    </div>
+                    <div
+                      className="flex-1 min-w-[120px] p-2 bg-[#FFC107] bg-opacity-20 border border-[#FFC107] rounded text-center cursor-pointer hover:bg-opacity-30"
+                      onClick={() => toggleMarketClassExpansion("player")}
+                    >
+                      <div className="text-xs font-medium">Player Market</div>
+                      <div className="text-xs text-[#5f6368]">75% Open</div>
+                    </div>
+                    <div
+                      className="flex-1 min-w-[120px] p-2 bg-[#F44336] bg-opacity-20 border border-[#F44336] rounded text-center cursor-pointer hover:bg-opacity-30"
+                      onClick={() => toggleMarketClassExpansion("matchup")}
+                    >
+                      <div className="text-xs font-medium">Player Matchup</div>
+                      <div className="text-xs text-[#5f6368]">0% Open</div>
+                    </div>
+                    <div
+                      className="flex-1 min-w-[120px] p-2 bg-[#62c11e] bg-opacity-20 border border-[#62c11e] rounded text-center cursor-pointer hover:bg-opacity-30"
+                      onClick={() => toggleMarketClassExpansion("milestone")}
+                    >
+                      <div className="text-xs font-medium">Player Milestone</div>
+                      <div className="text-xs text-[#5f6368]">100% Open</div>
+                    </div>
+                    <div
+                      className="flex-1 min-w-[120px] p-2 bg-[#FFC107] bg-opacity-20 border border-[#FFC107] rounded text-center cursor-pointer hover:bg-opacity-30"
+                      onClick={() => toggleMarketClassExpansion("firstlast")}
+                    >
+                      <div className="text-xs font-medium">First Last Next</div>
+                      <div className="text-xs text-[#5f6368]">50% Open</div>
+                    </div>
+                  </div>
+
+                  {/* Heat Map for all market classes */}
+                  {expandedMarketClass && (
+                    <div className="mt-4 border border-[#dcdddf] rounded-md overflow-hidden">
+                      <div className="p-2 bg-[#2b2c2d] text-white text-sm font-medium flex justify-between items-center">
+                        <span>
+                          {expandedMarketClass === "fixture"
+                            ? "Fixture Markets"
+                            : expandedMarketClass === "player"
+                              ? "Player Markets"
+                              : expandedMarketClass === "matchup"
+                                ? "Player Matchup Markets"
+                                : expandedMarketClass === "milestone"
+                                  ? "Player Milestone Markets"
+                                  : "First Last Next Markets"}
+                        </span>
+                        <button onClick={() => setExpandedMarketClass(null)} className="text-white hover:text-gray-300">
+                          <X className="h-4 w-4" />
+                        </button>
+                      </div>
+
+                      {/* Legend */}
+                      <div className="flex items-center gap-4 p-2 bg-[#1a1a1a] text-white text-xs">
+                        <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-center bg-[#F44336] text-white p-1 rounded">
+                            <code className="text-xs">&lt;/&gt;</code>
+                          </div>
+                          <span>Automatic suspension</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-center bg-[#F44336] text-white p-1 rounded">
+                            <User className="h-3 w-3" />
+                          </div>
+                          <span>Manual suspension</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-center bg-[#62c11e] text-white p-1 rounded">
+                            <CheckCircle2 className="h-3 w-3" />
+                          </div>
+                          <span>Temporary override</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="flex items-center justify-center bg-[#62c11e] text-white p-1 rounded">
+                            <Circle className="h-3 w-3" />
+                          </div>
+                          <span>Permanent override</span>
+                        </div>
+                      </div>
+
+                      {/* Heat Map Grid */}
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#2b2c2d] text-white">
+                              <th className="p-2 text-left w-16"></th>
+                              <th className="p-2 text-center w-16">MM</th>
+                              <th className="p-2 text-center w-16">1H</th>
+                              <th className="p-2 text-center w-16">1Q</th>
+                              <th className="p-2 text-center w-16">2Q</th>
+                              <th className="p-2 text-center w-16">3Q</th>
+                              <th className="p-2 text-center w-16">4Q</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {expandedMarketClass === "fixture" ? (
+                              // Fixture Markets Heat Map Content
+                              <>
+                                <tr className="border-b border-[#444]">
+                                  <td className="p-2 bg-[#333] text-white">M</td>
+                                  <td className="p-2 bg-[#62c11e]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                </tr>
+                                <tr className="border-b border-[#444]">
+                                  <td className="p-2 bg-[#333] text-white">S</td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#62c11e]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#333]"></td>
+                                  <td className="p-2 bg-[#62c11e]"></td>
+                                </tr>
+                                {/* More rows for fixture markets */}
+                              </>
+                            ) : expandedMarketClass === "player" ? (
+                              // Player Markets Heat Map Content
+                              <>
+                                <thead>
+                                  <tr className="bg-[#2b2c2d] text-white">
+                                    <th className="p-2 text-left">Stat Type</th>
+                                    <th className="p-2 text-center">Over</th>
+                                    <th className="p-2 text-center">Under</th>
+                                    <th className="p-2 text-center">Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr className="border-b border-[#444]">
+                                    <td className="p-2 bg-[#333] text-white">Points (O/U 25.5)</td>
+                                    <td className="p-2 bg-[#F44336] flex items-center justify-center">
+                                      <User className="h-4 w-4 text-white" />
+                                    </td>
+                                    <td className="p-2 bg-[#F44336] flex items-center justify-center">
+                                      <code className="text-white">&lt;/&gt;</code>
+                                    </td>
+                                    <td className="p-2 text-white text-center">Suspended</td>
+                                  </tr>
+                                  {/* More rows for player markets */}
+                                </tbody>
+                              </>
+                            ) : (
+                              // Other market types would be implemented similarly
+                              <tr>
+                                <td colSpan={7} className="p-4 text-center text-white">
+                                  Heat map data for {expandedMarketClass} markets
+                                </td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+
+                      {/* Market Abbreviations Legend */}
+                      <div className="p-2 bg-[#f1f2f3] text-xs">
+                        <div className="grid grid-cols-3 gap-2">
+                          {expandedMarketClass === "fixture" ? (
+                            // Fixture Markets Abbreviations
+                            <>
+                              <div>
+                                <strong>M:</strong> Moneyline
+                              </div>
+                              <div>
+                                <strong>S:</strong> Spread
+                              </div>
+                              <div>
+                                <strong>T:</strong> Total
+                              </div>
+                              {/* More abbreviations */}
+                            </>
+                          ) : expandedMarketClass === "player" ? (
+                            // Player Markets Abbreviations
+                            <>
+                              <div>
+                                <strong>PTS:</strong> Points
+                              </div>
+                              <div>
+                                <strong>REB:</strong> Rebounds
+                              </div>
+                              <div>
+                                <strong>AST:</strong> Assists
+                              </div>
+                              {/* More abbreviations */}
+                            </>
+                          ) : (
+                            // Other market types abbreviations
+                            <div>Abbreviations for {expandedMarketClass} markets</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Market Type Level */}
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium mb-2">Market Type: Player Props</h4>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                    <div className="p-2 bg-[#F44336] bg-opacity-20 border border-[#F44336] rounded">
+                      <div className="text-xs font-medium">LeBron James Points</div>
+                      <div className="text-xs text-[#5f6368]">Suspended</div>
+                    </div>
+                    <div className="p-2 bg-[#F44336] bg-opacity-20 border border-[#F44336] rounded">
+                      <div className="text-xs font-medium">LeBron James Rebounds</div>
+                      <div className="text-xs text-[#5f6368]">Suspended</div>
+                    </div>
+                    <div className="p-2 bg-[#F44336] bg-opacity-20 border border-[#F44336] rounded">
+                      <div className="text-xs font-medium">LeBron James Assists</div>
+                      <div className="text-xs text-[#5f6368]">Suspended</div>
+                    </div>
+                    <div className="p-2 bg-[#F44336] bg-opacity-20 border border-[#F44336] rounded">
+                      <div className="text-xs font-medium">Anthony Davis Points</div>
+                      <div className="text-xs text-[#5f6368]">Suspended</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Market Level */}
+                <div className="mb-4">
+                  <h4 className="text-sm font-medium mb-2">Market: Handicap</h4>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm border-collapse">
+                      <thead>
+                        <tr className="bg-[#f1f2f3]">
+                          <th className="p-2 text-left font-medium text-xs">Market</th>
+                          <th className="p-2 text-left font-medium text-xs">Status</th>
+                          <th className="p-2 text-left font-medium text-xs">Selections Open</th>
+                          <th className="p-2 text-left font-medium text-xs">Last Updated</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-[#dcdddf]">
+                          <td className="p-2 text-xs">Handicap (-5.5)</td>
+                          <td className="p-2">
+                            <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">Open</span>
+                          </td>
+                          <td className="p-2 text-xs">2/2</td>
+                          <td className="p-2 text-xs">10:15 AM</td>
+                        </tr>
+                        <tr className="border-b border-[#dcdddf]">
+                          <td className="p-2 text-xs">Handicap (-4.5)</td>
+                          <td className="p-2">
+                            <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">Open</span>
+                          </td>
+                          <td className="p-2 text-xs">2/2</td>
+                          <td className="p-2 text-xs">10:15 AM</td>
+                        </tr>
+                        <tr className="border-b border-[#dcdddf]">
+                          <td className="p-2 text-xs">Handicap (-3.5)</td>
+                          <td className="p-2">
+                            <span className="px-2 py-0.5 bg-[#FFC107] text-white rounded-full text-xs">Partial</span>
+                          </td>
+                          <td className="p-2 text-xs">1/2</td>
+                          <td className="p-2 text-xs">10:10 AM</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2 text-xs">Handicap (-2.5)</td>
+                          <td className="p-2">
+                            <span className="px-2 py-0.5 bg-[#F44336] text-white rounded-full text-xs">Suspended</span>
+                          </td>
+                          <td className="p-2 text-xs">0/2</td>
+                          <td className="p-2 text-xs">10:05 AM</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Selection Level */}
+                <div>
+                  <h4 className="text-sm font-medium mb-2">Selections: Handicap (-3.5)</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div className="p-3 bg-[#62c11e] bg-opacity-20 border border-[#62c11e] rounded">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <div className="text-xs font-medium">Lakers -3.5</div>
+                          <div className="text-xs text-[#5f6368]">1.95</div>
+                        </div>
+                        <div className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">Open</div>
+                      </div>
+                    </div>
+                    <div className="p-3 bg-[#F44336] bg-opacity-20 border border-[#F44336] rounded">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <div className="text-xs font-medium">Celtics +3.5</div>
+                          <div className="text-xs text-[#5f6368]">1.85</div>
+                        </div>
+                        <div className="px-2 py-0.5 bg-[#F44336] text-white rounded-full text-xs">Suspended</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Alert Information - Only show when alerts tab is active */}
           {scoreboardTab === "alerts" && (
             <div className="mb-6">
@@ -680,197 +901,195 @@ export default function GamePage() {
                   <table className="w-full text-sm">
                     <tbody>
                       {alerts.map((alert) => (
-                        <React.Fragment key={alert.id}>
-                          <tr className="border-b border-[#dcdddf] hover:bg-[#f9f9f9]">
-                            <td className="py-3 px-4">
-                              <div className="flex flex-col gap-1">
-                                <div className="flex items-center gap-2">
-                                  {alert.severity === "high" ? (
-                                    <div className="w-6 h-6 flex items-center justify-center bg-red-100 rounded-full">
-                                      <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
+                        <tr key={alert.id} className="border-b border-[#dcdddf] hover:bg-[#f9f9f9]">
+                          <td className="py-3 px-4">
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center gap-2">
+                                {alert.severity === "high" ? (
+                                  <div className="w-6 h-6 flex items-center justify-center bg-red-100 rounded-full">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M12 9v4M12 17h.01"
+                                        stroke="#EF4444"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                      <path
+                                        d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
+                                        stroke="#EF4444"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        fill="#FECACA"
+                                      />
+                                    </svg>
+                                  </div>
+                                ) : alert.severity === "medium" ? (
+                                  <div className="w-6 h-6 flex items-center justify-center bg-orange-100 rounded-full">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M12 9v4M12 17h.01"
+                                        stroke="#F97316"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                      <path
+                                        d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
+                                        stroke="#F97316"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        fill="#FFEDD5"
+                                      />
+                                    </svg>
+                                  </div>
+                                ) : (
+                                  <div className="w-6 h-6 flex items-center justify-center bg-blue-100 rounded-full">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M12 9v4M12 17h.01"
+                                        stroke="#3B82F6"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                      />
+                                      <path
+                                        d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
+                                        stroke="#3B82F6"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        fill="#DBEAFE"
+                                      />
+                                    </svg>
+                                  </div>
+                                )}
+                                <div className="font-medium">{alert.market}</div>
+                              </div>
+                              <div className="flex items-center gap-2 ml-8">
+                                <span className="inline-flex items-center">
+                                  {alert.homeTeam === "BOS" ||
+                                  alert.awayTeam === "BOS" ||
+                                  alert.homeTeam === "LAL" ||
+                                  alert.awayTeam === "LAL" ||
+                                  alert.homeTeam === "BKN" ||
+                                  alert.awayTeam === "BKN" ? (
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="mr-1"
+                                    >
+                                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+                                      <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                                        stroke="currentColor"
+                                        strokeWidth="0"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M12 9v4M12 17h.01"
-                                          stroke="#EF4444"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        />
-                                        <path
-                                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                                          stroke="#EF4444"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          fill="#FECACA"
-                                        />
-                                      </svg>
-                                    </div>
-                                  ) : alert.severity === "medium" ? (
-                                    <div className="w-6 h-6 flex items-center justify-center bg-orange-100 rounded-full">
-                                      <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
+                                      />
+                                      <path
+                                        d="M4.93 4.93c-1.41 1.41-2.4 3.16-2.82 5.07h5.1c.18-1.11.53-2.16 1.04-3.09l-3.32-1.98z"
+                                        stroke="currentColor"
+                                        strokeWidth="0.5"
                                         fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M12 9v4M12 17h.01"
-                                          stroke="#F97316"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        />
-                                        <path
-                                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                                          stroke="#F97316"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          fill="#FFEDD5"
-                                        />
-                                      </svg>
-                                    </div>
+                                      />
+                                      <path
+                                        d="M19.07 4.93l-3.32 1.98c.51.93.86 1.98 1.04 3.09h5.1c-.42-1.91-1.41-3.66-2.82-5.07z"
+                                        stroke="currentColor"
+                                        strokeWidth="0.5"
+                                        fill="none"
+                                      />
+                                      <path
+                                        d="M4.93 19.07c1.41 1.41 3.16 2.4 5.07 2.82v-5.1c-1.11-.18-2.16-.53-3.09-1.04l-1.98 3.32z"
+                                        stroke="currentColor"
+                                        strokeWidth="0.5"
+                                        fill="none"
+                                      />
+                                      <path
+                                        d="M19.07 19.07l-1.98-3.32c-.93.51-1.98.86-3.09 1.04v5.1c1.91-.42 3.66-1.41 5.07-2.82z"
+                                        stroke="currentColor"
+                                        strokeWidth="0.5"
+                                        fill="none"
+                                      />
+                                      <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" fill="currentColor" />
+                                    </svg>
                                   ) : (
-                                    <div className="w-6 h-6 flex items-center justify-center bg-blue-100 rounded-full">
-                                      <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                        <path
-                                          d="M12 9v4M12 17h.01"
-                                          stroke="#3B82F6"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                        />
-                                        <path
-                                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                                          stroke="#3B82F6"
-                                          strokeWidth="2"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          fill="#DBEAFE"
-                                        />
-                                      </svg>
-                                    </div>
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      viewBox="0 0 24 24"
+                                      fill="none"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="mr-1"
+                                    >
+                                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                                    </svg>
                                   )}
-                                  <div className="font-medium">{alert.market}</div>
-                                </div>
-                                <div className="flex items-center gap-2 ml-8">
-                                  <span className="inline-flex items-center">
-                                    {alert.homeTeam === "BOS" ||
-                                    alert.awayTeam === "BOS" ||
-                                    alert.homeTeam === "LAL" ||
-                                    alert.awayTeam === "LAL" ||
-                                    alert.homeTeam === "BKN" ||
-                                    alert.awayTeam === "BKN" ? (
-                                      <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="mr-1"
-                                      >
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
-                                        <path
-                                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
-                                          stroke="currentColor"
-                                          strokeWidth="0"
-                                          fill="none"
-                                        />
-                                        <path
-                                          d="M4.93 4.93c-1.41 1.41-2.4 3.16-2.82 5.07h5.1c.18-1.11.53-2.16 1.04-3.09l-3.32-1.98z"
-                                          stroke="currentColor"
-                                          strokeWidth="0.5"
-                                          fill="none"
-                                        />
-                                        <path
-                                          d="M19.07 4.93l-3.32 1.98c.51.93.86 1.98 1.04 3.09h5.1c-.42-1.91-1.41-3.66-2.82-5.07z"
-                                          stroke="currentColor"
-                                          strokeWidth="0.5"
-                                          fill="none"
-                                        />
-                                        <path
-                                          d="M4.93 19.07c1.41 1.41 3.16 2.4 5.07 2.82v-5.1c-1.11-.18-2.16-.53-3.09-1.04l-1.98 3.32z"
-                                          stroke="currentColor"
-                                          strokeWidth="0.5"
-                                          fill="none"
-                                        />
-                                        <path
-                                          d="M19.07 19.07l-1.98-3.32c-.93.51-1.98.86-3.09 1.04v5.1c1.91-.42 3.66-1.41 5.07-2.82z"
-                                          stroke="currentColor"
-                                          strokeWidth="0.5"
-                                          fill="none"
-                                        />
-                                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" fill="currentColor" />
-                                      </svg>
-                                    ) : (
-                                      <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="mr-1"
-                                      >
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                                      </svg>
-                                    )}
-                                    {alert.homeTeam} v {alert.awayTeam}
-                                  </span>
-                                  <span className="text-[#5f6368]">10 Oct</span>
-                                  <span className="px-2 py-0.5 bg-[#FFC107] text-white rounded-full text-xs">
-                                    {alert.badge}
-                                  </span>
-                                  <span className="text-[#5f6368]">{alert.time}</span>
-                                </div>
+                                  {alert.homeTeam} v {alert.awayTeam}
+                                </span>
+                                <span className="text-[#5f6368]">10 Oct</span>
+                                <span className="px-2 py-0.5 bg-[#FFC107] text-white rounded-full text-xs">
+                                  {alert.badge}
+                                </span>
+                                <span className="text-[#5f6368]">{alert.time}</span>
                               </div>
-                            </td>
-                            <td className="py-3 px-4">{alert.taken}</td>
-                            <td className="py-3 px-4">{alert.current}</td>
-                            <td className="py-3 px-4">{alert.marketAv}</td>
-                            <td className="py-3 px-4">{alert.comp}</td>
-                            <td className="py-3 px-4">{alert.recommendation}</td>
-                            <td className="py-3 px-4">
-                              <div className="flex gap-1">
-                                <button
-                                  className="px-2 py-1 bg-[#62c11e] text-white text-xs rounded"
-                                  onClick={(e) => openAcceptPreview(alert, e)}
-                                >
-                                  Accept
-                                </button>
-                                <button
-                                  className="px-2 py-1 bg-[#FFC107] text-white text-xs rounded"
-                                  onClick={(e) => openSuspendConfirmation(alert, e)}
-                                >
-                                  Suspend
-                                </button>
-                                <button
-                                  className="px-2 py-1 bg-[#F44336] text-white text-xs rounded"
-                                  onClick={(e) => openDismissConfirmation(alert, e)}
-                                >
-                                  Dismiss
-                                </button>
-                              </div>
-                            </td>
-                            <td className="py-3 px-4 text-center">
-                              <button className="text-[#5f6368]" onClick={() => openAlertDetailsModal(alert)}>
-                                <MoreHorizontal className="h-4 w-4" />
+                            </div>
+                          </td>
+                          <td className="py-3 px-4">{alert.taken}</td>
+                          <td className="py-3 px-4">{alert.current}</td>
+                          <td className="py-3 px-4">{alert.marketAv}</td>
+                          <td className="py-3 px-4">{alert.comp}</td>
+                          <td className="py-3 px-4">{alert.recommendation}</td>
+                          <td className="py-3 px-4">
+                            <div className="flex gap-1">
+                              <button
+                                className="px-2 py-1 bg-[#62c11e] text-white text-xs rounded"
+                                onClick={(e) => openAcceptPreview(alert, e)}
+                              >
+                                Accept
                               </button>
-                            </td>
-                          </tr>
-                        </React.Fragment>
+                              <button
+                                className="px-2 py-1 bg-[#FFC107] text-white text-xs rounded"
+                                onClick={(e) => openSuspendConfirmation(alert, e)}
+                              >
+                                Suspend
+                              </button>
+                              <button
+                                className="px-2 py-1 bg-[#F44336] text-white text-xs rounded"
+                                onClick={(e) => openDismissConfirmation(alert, e)}
+                              >
+                                Dismiss
+                              </button>
+                            </div>
+                          </td>
+                          <td className="py-3 px-4 text-center">
+                            <button className="text-[#5f6368]" onClick={() => openAlertDetailsModal(alert)}>
+                              <MoreHorizontal className="h-4 w-4" />
+                            </button>
+                          </td>
+                        </tr>
                       ))}
                     </tbody>
                   </table>
@@ -988,393 +1207,632 @@ export default function GamePage() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                        <th className="py-2 px-3 text-left font-normal">Line</th>
-                        <th className="py-2 px-3 text-left font-normal">Output</th>
-                        <th className="py-2 px-3 text-left font-normal">Sim</th>
-                        <th className="py-2 px-3 text-left font-normal">Competitor Price</th>
-                        <th className="py-2 px-3 text-left font-normal">Rec. Price</th>
-                        <th className="py-2 px-3 text-left font-normal">Liability</th>
-                        <th className="py-2 px-3 text-left font-normal">% SP</th>
-                        <th className="py-2 px-3 text-left font-normal">Status</th>
+                        <th className="py-2 px-4 text-left">Line</th>
+                        <th className="py-2 px-4 text-center">Output</th>
+                        <th className="py-2 px-4 text-center">Sim</th>
+                        <th className="py-2 px-4 text-center">Competitor Price</th>
+                        <th className="py-2 px-4 text-center">Rec. Price</th>
+                        <th className="py-2 px-4 text-center">Liability</th>
+                        <th className="py-2 px-4 text-center">% SP</th>
+                        <th className="py-2 px-4 text-center">Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-3">Los Angeles Lakers</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">30,202.11</td>
-                        <td className="py-2 px-3">27</td>
-                        <td className="py-2 px-3">
+                        <td className="py-2 px-4">Los Angeles Lakers</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">27</td>
+                        <td className="py-2 px-4 text-center">
                           <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
                         </td>
                       </tr>
-                      <tr>
-                        <td className="py-2 px-3">Boston Celtics</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">1.234</td>
-                        <td className="py-2 px-3">30,202.11</td>
-                        <td className="py-2 px-3">22</td>
-                        <td className="py-2 px-3">
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Boston Celtics</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">22</td>
+                        <td className="py-2 px-4 text-center">
                           <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
                         </td>
                       </tr>
                     </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="8" className="text-right py-2 px-4">
+                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
+                            See All
+                          </a>
+                        </td>
+                      </tr>
+                    </tfoot>
                   </table>
-                  <div className="flex justify-end p-2 text-xs text-[#5f6368]">
-                    <button>See All</button>
-                  </div>
                 </div>
               )}
             </div>
 
-            {/* Other market sections remain the same */}
+            {/* Handicap Section */}
+            <div className="mb-4">
+              <div
+                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
+                onClick={() => toggleSection("handicap")}
+              >
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${!expandedSections.handicap ? "-rotate-90" : ""}`}
+                />
+                <span className="font-medium">Handicap</span>
+              </div>
+
+              {expandedSections.handicap && (
+                <div className="border-x border-b border-[#dcdddf] rounded-b">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
+                        <th className="py-2 px-4 text-left">Line</th>
+                        <th className="py-2 px-4 text-center">Output</th>
+                        <th className="py-2 px-4 text-center">Sim</th>
+                        <th className="py-2 px-4 text-center">Competitor Price</th>
+                        <th className="py-2 px-4 text-center">Rec. Price</th>
+                        <th className="py-2 px-4 text-center">Liability</th>
+                        <th className="py-2 px-4 text-center">% SP</th>
+                        <th className="py-2 px-4 text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Los Angeles Lakers -5.5</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">27</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Boston Celtics +5.5</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">22</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="8" className="text-right py-2 px-4">
+                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
+                            See All
+                          </a>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Match Total Section */}
+            <div className="mb-4">
+              <div
+                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
+                onClick={() => toggleSection("matchTotal")}
+              >
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${!expandedSections.matchTotal ? "-rotate-90" : ""}`}
+                />
+                <span className="font-medium">Match Total</span>
+              </div>
+
+              {expandedSections.matchTotal && (
+                <div className="border-x border-b border-[#dcdddf] rounded-b">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
+                        <th className="py-2 px-4 text-left">Line</th>
+                        <th className="py-2 px-4 text-center">Output</th>
+                        <th className="py-2 px-4 text-center">Sim</th>
+                        <th className="py-2 px-4 text-center">Competitor Price</th>
+                        <th className="py-2 px-4 text-center">Rec. Price</th>
+                        <th className="py-2 px-4 text-center">Liability</th>
+                        <th className="py-2 px-4 text-center">% SP</th>
+                        <th className="py-2 px-4 text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Over 220.5</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">27</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Under 220.5</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+
+                        <td className="py-2 px-4 text-center">1.234</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="8" className="text-right py-2 px-4">
+                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
+                            See All
+                          </a>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              )}
+            </div>
+
+            {/* Team Total Section */}
+            <div className="mb-4">
+              <div
+                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
+                onClick={() => toggleSection("teamTotal")}
+              >
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${!expandedSections.teamTotal ? "-rotate-90" : ""}`}
+                />
+                <span className="font-medium">Team Total</span>
+              </div>
+
+              {expandedSections.teamTotal && (
+                <div className="border-x border-b border-[#dcdddf] rounded-b">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
+                        <th className="py-2 px-4 text-left">Line</th>
+                        <th className="py-2 px-4 text-center">Output</th>
+                        <th className="py-2 px-4 text-center">Sim</th>
+                        <th className="py-2 px-4 text-center">Competitor Price</th>
+                        <th className="py-2 px-4 text-center">Rec. Price</th>
+                        <th className="py-2 px-4 text-center">Liability</th>
+                        <th className="py-2 px-4 text-center">% SP</th>
+                        <th className="py-2 px-4 text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Lakers Over 110.5</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">27</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">Lakers Under 110.5</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">22</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="8" className="text-right py-2 px-4">
+                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
+                            See All
+                          </a>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Alert Details Modal */}
-      {showAlertDetailsModal && selectedAlert && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
-            <div className="p-4 border-b border-[#dcdddf]">
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl font-semibold">Alert Details</h2>
-                <button onClick={closeAlertDetailsModal} className="text-[#2b2c2d] hover:text-[#5f6368]">
-                  <X className="h-6 w-6" />
-                </button>
+          {/* Player Markets */}
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <h2 className="font-medium">Player Markets</h2>
               </div>
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center gap-2">
-                  {selectedAlert.severity === "high" ? (
-                    <div className="w-5 h-5 flex items-center justify-center bg-red-100 rounded-full">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12 9v4M12 17h.01"
-                          stroke="#EF4444"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                          stroke="#EF4444"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fill="#FECACA"
-                        />
-                      </svg>
-                    </div>
-                  ) : selectedAlert.severity === "medium" ? (
-                    <div className="w-5 h-5 flex items-center justify-center bg-orange-100 rounded-full">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12 9v4M12 17h.01"
-                          stroke="#F97316"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                          stroke="#F97316"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fill="#FFEDD5"
-                        />
-                      </svg>
-                    </div>
-                  ) : (
-                    <div className="w-5 h-5 flex items-center justify-center bg-blue-100 rounded-full">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12 9v4M12 17h.01"
-                          stroke="#3B82F6"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                          stroke="#3B82F6"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          fill="#DBEAFE"
-                        />
-                      </svg>
-                    </div>
-                  )}
-                  <span className="font-medium">{selectedAlert.market}</span>
-                  <span className="px-2 py-0.5 bg-[#FFC107] text-white rounded-full text-xs">
-                    {selectedAlert.badge}
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 ml-8">
-                  <span className="text-[#5f6368]">
-                    {selectedAlert.homeTeam} v {selectedAlert.awayTeam}
-                  </span>
-                  <span className="text-[#5f6368]">{selectedAlert.time}</span>
+              <div className="flex items-center gap-2">
+                <div className="flex border border-[#dcdddf] rounded overflow-hidden">
+                  <button className="px-2 py-1 text-xs bg-[#2b2c2d] text-white">ALL</button>
+                  <button className="px-2 py-1 text-xs">Lakers</button>
+                  <button className="px-2 py-1 text-xs">Celtics</button>
                 </div>
               </div>
             </div>
 
-            <div className="p-4">
-              {/* First Card */}
-              <div className="bg-white border border-[#dcdddf] rounded-lg p-4 mb-4">
-                <div className="grid grid-cols-2 gap-y-4">
-                  <div className="text-[#5f6368]">Price Taken</div>
-                  <div className="text-right">{selectedAlert.taken}</div>
-
-                  <div className="text-[#5f6368]">Our Price</div>
-                  <div className="text-right">{selectedAlert.current}</div>
-
-                  <div className="text-[#5f6368]">Market Average</div>
-                  <div className="text-right">{selectedAlert.marketAv}</div>
-
-                  <div className="text-[#5f6368]">Competitor Price</div>
-                  <div className="text-right">{selectedAlert.comp}</div>
-
-                  <div className="text-[#5f6368]">SF</div>
-                  <div className="text-right">0.22</div>
-
-                  <div className="text-[#5f6368]">Liability</div>
-                  <div className="text-right">{selectedAlert.taken}</div>
-                </div>
+            {/* LeBron James Section */}
+            <div className="mb-4">
+              <div
+                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
+                onClick={() => toggleSection("lebronJames")}
+              >
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${!expandedSections.lebronJames ? "-rotate-90" : ""}`}
+                />
+                <span className="font-medium">LeBron James</span>
+                <span className="text-xs px-1.5 py-0.5 bg-[#F44336] text-white rounded">SUSPENDED</span>
               </div>
 
-              {/* Second Card */}
-              <div className="bg-white border border-[#dcdddf] rounded-lg p-4">
-                <div className="grid grid-cols-2 gap-y-4">
-                  <div className="text-[#5f6368]">Time of detection</div>
-                  <div className="text-right">April 5, 2025, At 18:32:44 UTC</div>
-
-                  <div className="text-[#5f6368]">Market</div>
-                  <div className="text-right">NFL.12345.Moneyline</div>
-
-                  <div className="text-[#5f6368]">Liability</div>
-                  <div className="text-right">$1000.00</div>
-
-                  <div className="text-[#5f6368]">Severity</div>
-                  <div className="text-right text-[#F44336]">High</div>
-
-                  <div className="text-[#5f6368]">Labels</div>
-                  <div className="text-right flex justify-end gap-1">
-                    <span className="px-2 py-1 bg-[#e2edf0] text-[#2b2c2d] rounded text-xs">NFL</span>
-                    <span className="px-2 py-1 bg-[#e2edf0] text-[#2b2c2d] rounded text-xs">VIP</span>
-                    <span className="px-2 py-1 bg-[#e2edf0] text-[#2b2c2d] rounded text-xs">VOLUME SPIKE</span>
-                  </div>
-
-                  <div className="text-[#5f6368]">Origin System</div>
-                  <div className="text-right">Anomaly Detector V1</div>
-
-                  <div className="text-[#5f6368]">Market</div>
-                  <div className="text-right">NFL.12345.Moneyline</div>
-
-                  <div className="text-[#5f6368]">Version</div>
-                  <div className="text-right">1.0</div>
+              {expandedSections.lebronJames && (
+                <div className="border-x border-b border-[#dcdddf] rounded-b">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
+                        <th className="py-2 px-4 text-left">Line</th>
+                        <th className="py-2 px-4 text-center">Output</th>
+                        <th className="py-2 px-4 text-center">Sim</th>
+                        <th className="py-2 px-4 text-center">Competitor Price</th>
+                        <th className="py-2 px-4 text-center">Rec. Price</th>
+                        <th className="py-2 px-4 text-center">Liability</th>
+                        <th className="py-2 px-4 text-center">% SP</th>
+                        <th className="py-2 px-4 text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">LeBron James Over 25.5 Points</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">27</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#F44336] text-white rounded-full text-xs">SUSPENDED</span>
+                        </td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="py-2 px-4">LeBron James Under 25.5 Points</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">1.234</td>
+                        <td className="py-2 px-4 text-center">30,202.11</td>
+                        <td className="py-2 px-4 text-center">22</td>
+                        <td className="py-2 px-4 text-center">
+                          <span className="px-2 py-0.5 bg-[#F44336] text-white rounded-full text-xs">SUSPENDED</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan="8" className="text-right py-2 px-4">
+                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
+                            See All
+                          </a>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
+              )}
+            </div>
+
+            {/* Player Milestones Section */}
+            <div className="mb-4">
+              <div
+                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
+                onClick={() => toggleSection("playerMilestones")}
+              >
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform ${!expandedSections.playerMilestones ? "-rotate-90" : ""}`}
+                />
+                <span className="font-medium">Player Milestones</span>
               </div>
+
+              {expandedSections.playerMilestones && (
+                <div className="border-x border-b border-[#dcdddf] rounded-b p-4">
+                  <p className="text-sm text-[#5f6368]">Player milestone markets will be displayed here.</p>
+                </div>
+              )}
             </div>
           </div>
-        </div>
-      )}
 
-      {/* Accept Preview Modal */}
-      {showAcceptPreview && alertForAction && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
-            <div className="p-4 border-b border-[#dcdddf]">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Price Change Preview</h2>
-                <button onClick={closeActionModals} className="text-[#2b2c2d] hover:text-[#5f6368]">
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-            </div>
-
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <CheckCircle2 className="h-5 w-5 text-[#62c11e]" />
-                <span className="font-medium">{alertForAction.market}</span>
-              </div>
-
-              <div className="bg-white border border-[#dcdddf] rounded-lg p-4 mb-4">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-[#5f6368]">Current Price</div>
-                  <div className="font-medium">{alertForAction.current}</div>
+          {/* Alert Details Modal */}
+          {showAlertDetailsModal && selectedAlert && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg w-full max-w-2xl">
+                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
+                  <h3 className="text-lg font-medium">Alert Details</h3>
+                  <button onClick={closeAlertDetailsModal} className="text-[#5f6368] hover:text-[#2b2c2d]">
+                    <X className="h-5 w-5" />
+                  </button>
                 </div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-[#5f6368]">Recommended Price</div>
-                  <div className="font-medium text-[#62c11e]">
-                    {extractRecommendedPrice(alertForAction.recommendation) || "1.35"}
-                  </div>
-                </div>
-                <div className="h-8 w-full bg-[#f1f2f3] rounded-full relative mb-4">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="h-full w-[2px] bg-[#2b2c2d]"></div>
-                  </div>
-                  <div
-                    className="absolute top-0 left-0 h-full bg-[#62c11e] rounded-full opacity-20"
-                    style={{ width: "60%" }}
-                  ></div>
-                  <div className="absolute top-0 left-[30%] h-full flex items-center">
-                    <div className="h-6 w-6 rounded-full bg-white border-2 border-[#62c11e] -ml-3 flex items-center justify-center">
-                      <span className="text-xs font-medium">{alertForAction.current}</span>
+                <div className="p-4">
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Market</p>
+                      <p className="font-medium">{selectedAlert.market}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Market ID</p>
+                      <p className="font-medium">{selectedAlert.details.marketId}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Fixture</p>
+                      <p className="font-medium">
+                        {selectedAlert.homeTeam} vs {selectedAlert.awayTeam}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Timestamp</p>
+                      <p className="font-medium">{selectedAlert.details.timestamp}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Trigger Reason</p>
+                      <p className="font-medium">{selectedAlert.details.triggerReason}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Liability</p>
+                      <p className="font-medium">{selectedAlert.details.liability}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Stake Factor</p>
+                      <p className="font-medium">{selectedAlert.details.stakeFactor}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Risk Level</p>
+                      <p className="font-medium">{selectedAlert.details.riskLevel}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-[#5f6368] mb-1">Previous Alerts</p>
+                      <p className="font-medium">{selectedAlert.details.previousAlerts}</p>
                     </div>
                   </div>
-                  <div className="absolute top-0 left-[60%] h-full flex items-center">
-                    <div className="h-6 w-6 rounded-full bg-white border-2 border-[#62c11e] -ml-3 flex items-center justify-center">
-                      <span className="text-xs font-medium">
-                        {extractRecommendedPrice(alertForAction.recommendation) || "1.35"}
+
+                  <div className="mb-4">
+                    <p className="text-sm text-[#5f6368] mb-1">Price Comparison</p>
+                    <table className="w-full text-sm border-collapse">
+                      <thead>
+                        <tr className="bg-[#f1f2f3]">
+                          <th className="p-2 text-left font-medium">Type</th>
+                          <th className="p-2 text-left font-medium">Value</th>
+                          <th className="p-2 text-left font-medium">Difference</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr className="border-b border-[#dcdddf]">
+                          <td className="p-2">Taken Price</td>
+                          <td className="p-2">{selectedAlert.taken}</td>
+                          <td className="p-2">-</td>
+                        </tr>
+                        <tr className="border-b border-[#dcdddf]">
+                          <td className="p-2">Current Price</td>
+                          <td className="p-2">{selectedAlert.current}</td>
+                          <td className="p-2">0.00%</td>
+                        </tr>
+                        <tr className="border-b border-[#dcdddf]">
+                          <td className="p-2">Market Average</td>
+                          <td className="p-2">{selectedAlert.marketAv}</td>
+                          <td className="p-2 text-[#F44336]">+9.08%</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2">Competitor Price</td>
+                          <td className="p-2">{selectedAlert.comp}</td>
+                          <td className="p-2 text-[#F44336]">+18.17%</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="mb-4">
+                    <p className="text-sm text-[#5f6368] mb-1">Recommendation</p>
+                    <p className="p-2 bg-[#f1f2f3] rounded">{selectedAlert.recommendation}</p>
+                  </div>
+
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={closeAlertDetailsModal}
+                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
+                    >
+                      Close
+                    </button>
+                    <button
+                      onClick={() => {
+                        closeAlertDetailsModal()
+                        openAcceptPreview(selectedAlert, { stopPropagation: () => {} })
+                      }}
+                      className="px-4 py-2 bg-[#62c11e] text-white rounded hover:bg-[#52a119]"
+                    >
+                      Accept Recommendation
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Accept Preview Modal */}
+          {showAcceptPreview && alertForAction && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg w-full max-w-md">
+                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
+                  <h3 className="text-lg font-medium">Accept Price Change</h3>
+                  <button onClick={closeActionModals} className="text-[#5f6368] hover:text-[#2b2c2d]">
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="p-4">
+                  <p className="mb-4">
+                    You are about to change the price for <strong>{alertForAction.market}</strong> from{" "}
+                    <strong>{alertForAction.current}</strong> to{" "}
+                    <strong>{extractRecommendedPrice(alertForAction.recommendation)}</strong>.
+                  </p>
+
+                  <div className="mb-4">
+                    <div className="flex justify-between mb-2">
+                      <span>Current Price:</span>
+                      <span className="font-medium">{alertForAction.current}</span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span>New Price:</span>
+                      <span className="font-medium">{extractRecommendedPrice(alertForAction.recommendation)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Change:</span>
+                      <span className="font-medium text-[#eb6a2e]">
+                        {(
+                          ((Number.parseFloat(extractRecommendedPrice(alertForAction.recommendation)) -
+                            Number.parseFloat(alertForAction.current)) /
+                            Number.parseFloat(alertForAction.current)) *
+                          100
+                        ).toFixed(2)}
+                        %
                       </span>
                     </div>
                   </div>
-                </div>
-                <div className="text-sm text-[#5f6368]">
-                  This change will bring our price in line with the market average ({alertForAction.marketAv}) and
-                  competitor pricing ({alertForAction.comp}).
-                </div>
-              </div>
 
-              <div className="flex justify-end gap-2">
-                <button className="px-3 py-1.5 border border-[#dcdddf] rounded text-sm" onClick={closeActionModals}>
-                  Cancel
-                </button>
-                <button className="px-3 py-1.5 bg-[#62c11e] text-white rounded text-sm" onClick={confirmAccept}>
-                  Confirm Price Change
-                </button>
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={closeActionModals}
+                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmAccept}
+                      className="px-4 py-2 bg-[#62c11e] text-white rounded hover:bg-[#52a119]"
+                    >
+                      Confirm Change
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          )}
+
+          {/* Suspend Confirmation Modal */}
+          {showSuspendConfirmation && alertForAction && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg w-full max-w-md">
+                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
+                  <h3 className="text-lg font-medium">Suspend Market</h3>
+                  <button onClick={closeActionModals} className="text-[#5f6368] hover:text-[#2b2c2d]">
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="p-4">
+                  <p className="mb-4">
+                    You are about to suspend the market <strong>{alertForAction.market}</strong>. This will prevent any
+                    new bets from being placed on this market.
+                  </p>
+
+                  <div className="mb-4">
+                    <div className="flex justify-between mb-2">
+                      <span>Market:</span>
+                      <span className="font-medium">{alertForAction.market}</span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span>Current Status:</span>
+                      <span className="font-medium">Active</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>New Status:</span>
+                      <span className="font-medium text-[#F44336]">Suspended</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={closeActionModals}
+                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmSuspend}
+                      className="px-4 py-2 bg-[#FFC107] text-white rounded hover:bg-[#e6af06]"
+                    >
+                      Confirm Suspension
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Dismiss Confirmation Modal */}
+          {showDismissConfirmation && alertForAction && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg w-full max-w-md">
+                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
+                  <h3 className="text-lg font-medium">Dismiss Alert</h3>
+                  <button onClick={closeActionModals} className="text-[#5f6368] hover:text-[#2b2c2d]">
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+                <div className="p-4">
+                  <p className="mb-4">
+                    You are about to dismiss the alert for <strong>{alertForAction.market}</strong>. This will remove
+                    the alert from your list.
+                  </p>
+
+                  <div className="mb-4">
+                    <div className="flex justify-between mb-2">
+                      <span>Alert ID:</span>
+                      <span className="font-medium">{alertForAction.id}</span>
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <span>Market:</span>
+                      <span className="font-medium">{alertForAction.market}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>Recommendation:</span>
+                      <span className="font-medium">{alertForAction.recommendation}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end gap-2">
+                    <button
+                      onClick={closeActionModals}
+                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={confirmDismiss}
+                      className="px-4 py-2 bg-[#F44336] text-white rounded hover:bg-[#d32f2f]"
+                    >
+                      Confirm Dismissal
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Suspend Confirmation Modal */}
-      {showSuspendConfirmation && alertForAction && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
-            <div className="p-4 border-b border-[#dcdddf]">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Suspend Market</h2>
-                <button onClick={closeActionModals} className="text-[#2b2c2d] hover:text-[#5f6368]">
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-            </div>
-
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <AlertTriangle className="h-5 w-5 text-[#FFC107]" />
-                <span className="font-medium">Confirm Market Suspension</span>
-              </div>
-
-              <div className="bg-[#FFC107] bg-opacity-10 border border-[#FFC107] rounded-lg p-4 mb-4">
-                <p className="text-sm">
-                  You are about to suspend the market <strong>{alertForAction.market}</strong> for{" "}
-                  <strong>
-                    {alertForAction.homeTeam} v {alertForAction.awayTeam}
-                  </strong>
-                  .
-                </p>
-                <p className="text-sm mt-2">
-                  This will prevent any new bets from being placed until the market is reopened.
-                </p>
-              </div>
-
-              <div className="bg-white border border-[#dcdddf] rounded-lg p-4 mb-4">
-                <div className="grid grid-cols-2 gap-y-2">
-                  <div className="text-[#5f6368]">Market ID</div>
-                  <div className="text-right">{alertForAction.details?.marketId || "LBJ-PTS-O25.5"}</div>
-
-                  <div className="text-[#5f6368]">Current Liability</div>
-                  <div className="text-right">{alertForAction.details?.liability || "$30,202.11"}</div>
-
-                  <div className="text-[#5f6368]">Suspension Reason</div>
-                  <div className="text-right">Alert Response</div>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-2">
-                <button className="px-3 py-1.5 border border-[#dcdddf] rounded text-sm" onClick={closeActionModals}>
-                  Cancel
-                </button>
-                <button className="px-3 py-1.5 bg-[#FFC107] text-white rounded text-sm" onClick={confirmSuspend}>
-                  Confirm Suspension
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Dismiss Confirmation Modal */}
-      {showDismissConfirmation && alertForAction && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
-            <div className="p-4 border-b border-[#dcdddf]">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Dismiss Alert</h2>
-                <button onClick={closeActionModals} className="text-[#2b2c2d] hover:text-[#5f6368]">
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-            </div>
-
-            <div className="p-4">
-              <div className="flex items-center gap-2 mb-4">
-                <AlertTriangle className="h-5 w-5 text-[#F44336]" />
-                <span className="font-medium">Are you sure you want to dismiss this alert?</span>
-              </div>
-
-              <div className="bg-[#F44336] bg-opacity-10 border border-[#F44336] rounded-lg p-4 mb-4">
-                <p className="text-sm">
-                  You are about to dismiss the {alertForAction.severity} severity alert for{" "}
-                  <strong>{alertForAction.market}</strong>.
-                </p>
-                <p className="text-sm mt-2">
-                  This action will be logged and the alert will be removed from your active alerts.
-                </p>
-              </div>
-
-              <div className="bg-white border border-[#dcdddf] rounded-lg p-4 mb-4">
-                <div className="mb-2">
-                  <label className="text-sm font-medium">Reason for dismissal (optional)</label>
-                  <select className="w-full mt-1 p-2 border border-[#dcdddf] rounded text-sm">
-                    <option>False positive</option>
-                    <option>Already addressed</option>
-                    <option>Not relevant</option>
-                    <option>Will address later</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Additional notes</label>
-                  <textarea
-                    className="w-full mt-1 p-2 border border-[#dcdddf] rounded text-sm h-20"
-                    placeholder="Add any additional context for dismissing this alert..."
-                  ></textarea>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-2">
-                <button className="px-3 py-1.5 border border-[#dcdddf] rounded text-sm" onClick={closeActionModals}>
-                  Cancel
-                </button>
-                <button className="px-3 py-1.5 bg-[#F44336] text-white rounded text-sm" onClick={confirmDismiss}>
-                  Confirm Dismissal
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   )
 }

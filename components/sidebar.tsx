@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, HomeIcon, Plus, Star, Calendar, X } from "lucide-react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -8,8 +8,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
-export default function Sidebar({ pinnedFixtures = [], addFixture = () => {}, removeFixture = () => {} }) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+export default function Sidebar({
+  pinnedFixtures = [],
+  addFixture = () => {},
+  removeFixture = () => {},
+  condensed = false,
+}) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(condensed)
+
+  useEffect(() => {
+    // Check if there's a saved state in localStorage
+    const savedState = localStorage.getItem("sidebarCollapsed")
+    if (savedState !== null) {
+      setIsSidebarCollapsed(savedState === "true")
+    }
+  }, [])
+
+  const toggleSidebar = () => {
+    const newState = !isSidebarCollapsed
+    setIsSidebarCollapsed(newState)
+    localStorage.setItem("sidebarCollapsed", String(newState))
+  }
 
   return (
     <div
@@ -21,10 +40,7 @@ export default function Sidebar({ pinnedFixtures = [], addFixture = () => {}, re
             <HomeIcon className="h-5 w-5" />
             {!isSidebarCollapsed && <span className="font-medium">Home</span>}
           </div>
-          <button
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="text-[#5f6368] hover:text-[#2b2c2d]"
-          >
+          <button onClick={toggleSidebar} className="text-[#5f6368] hover:text-[#2b2c2d]">
             {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </button>
         </div>
