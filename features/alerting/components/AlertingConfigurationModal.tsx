@@ -22,6 +22,7 @@ import type {
   SportType,
   SelectionType,
   AlertType,
+  TimeWindowUnit,
 } from "../types"
 
 // Preset configurations for different alert types
@@ -31,7 +32,13 @@ const alertTypePresets: Record<
     description: string
     customerFactorRange: { min: number; max: number }
     timeRanges: Omit<TimeRange, "id">[]
-    defaultRange: { threshold: number; enabled: boolean }
+    defaultRange: {
+      threshold: number
+      enabled: boolean
+      betCountThreshold: number
+      timeWindowValue: number
+      timeWindowUnit: TimeWindowUnit
+    }
   }
 > = {
   arb: {
@@ -44,6 +51,9 @@ const alertTypePresets: Record<
         endMinutes: 30,
         threshold: 8,
         enabled: true,
+        betCountThreshold: 5,
+        timeWindowValue: 15,
+        timeWindowUnit: "seconds",
       },
       {
         name: "Pre-Game",
@@ -51,6 +61,9 @@ const alertTypePresets: Record<
         endMinutes: 120,
         threshold: 6,
         enabled: true,
+        betCountThreshold: 10,
+        timeWindowValue: 1,
+        timeWindowUnit: "minutes",
       },
       {
         name: "Early Market",
@@ -58,11 +71,17 @@ const alertTypePresets: Record<
         endMinutes: 1440, // 24 hours
         threshold: 4,
         enabled: true,
+        betCountThreshold: 15,
+        timeWindowValue: 5,
+        timeWindowUnit: "minutes",
       },
     ],
     defaultRange: {
       threshold: 3,
       enabled: true,
+      betCountThreshold: 20,
+      timeWindowValue: 10,
+      timeWindowUnit: "minutes",
     },
   },
   sharp: {
@@ -75,6 +94,9 @@ const alertTypePresets: Record<
         endMinutes: 60,
         threshold: 7,
         enabled: true,
+        betCountThreshold: 3,
+        timeWindowValue: 30,
+        timeWindowUnit: "seconds",
       },
       {
         name: "Pre-Game",
@@ -82,11 +104,17 @@ const alertTypePresets: Record<
         endMinutes: 240,
         threshold: 5,
         enabled: true,
+        betCountThreshold: 8,
+        timeWindowValue: 2,
+        timeWindowUnit: "minutes",
       },
     ],
     defaultRange: {
       threshold: 4,
       enabled: true,
+      betCountThreshold: 12,
+      timeWindowValue: 5,
+      timeWindowUnit: "minutes",
     },
   },
   value: {
@@ -99,6 +127,9 @@ const alertTypePresets: Record<
         endMinutes: 60,
         threshold: 5,
         enabled: true,
+        betCountThreshold: 4,
+        timeWindowValue: 45,
+        timeWindowUnit: "seconds",
       },
       {
         name: "Pre-Game",
@@ -106,11 +137,17 @@ const alertTypePresets: Record<
         endMinutes: 360,
         threshold: 4,
         enabled: true,
+        betCountThreshold: 7,
+        timeWindowValue: 3,
+        timeWindowUnit: "minutes",
       },
     ],
     defaultRange: {
       threshold: 3,
       enabled: true,
+      betCountThreshold: 10,
+      timeWindowValue: 5,
+      timeWindowUnit: "minutes",
     },
   },
   alm: {
@@ -123,6 +160,9 @@ const alertTypePresets: Record<
         endMinutes: 15,
         threshold: 10,
         enabled: true,
+        betCountThreshold: 8,
+        timeWindowValue: 10,
+        timeWindowUnit: "seconds",
       },
       {
         name: "Close to Event",
@@ -130,6 +170,9 @@ const alertTypePresets: Record<
         endMinutes: 60,
         threshold: 8,
         enabled: true,
+        betCountThreshold: 12,
+        timeWindowValue: 30,
+        timeWindowUnit: "seconds",
       },
       {
         name: "Pre-Game",
@@ -137,11 +180,17 @@ const alertTypePresets: Record<
         endMinutes: 180,
         threshold: 6,
         enabled: true,
+        betCountThreshold: 15,
+        timeWindowValue: 2,
+        timeWindowUnit: "minutes",
       },
     ],
     defaultRange: {
       threshold: 5,
       enabled: true,
+      betCountThreshold: 20,
+      timeWindowValue: 5,
+      timeWindowUnit: "minutes",
     },
   },
 }
@@ -184,6 +233,9 @@ export function AlertingConfigurationModal({
       defaultRange: {
         threshold: 5,
         enabled: true,
+        betCountThreshold: 10,
+        timeWindowValue: 1,
+        timeWindowUnit: "minutes",
       },
       expirationSettings: {
         timeToExpire: 0,
@@ -271,6 +323,9 @@ export function AlertingConfigurationModal({
       endMinutes: config.timeRanges.length > 0 ? config.timeRanges[config.timeRanges.length - 1].endMinutes + 60 : 60,
       threshold: 5,
       enabled: true,
+      betCountThreshold: 5,
+      timeWindowValue: 1,
+      timeWindowUnit: "minutes",
     }
     handleChange("timeRanges", [...config.timeRanges, newRange])
   }
@@ -708,13 +763,19 @@ export function AlertingConfigurationModal({
                 <div className="flex items-start">
                   <Info className="h-5 w-5 text-blue-500 mr-2 mt-0.5" />
                   <div className="text-sm text-blue-700">
-                    <p className="font-medium mb-1">What does the threshold do?</p>
-                    <p>
-                      The threshold is the value that triggers an alert when exceeded. For example, if the threshold is
-                      set to 5, an alert will be triggered when the monitored value goes above 5 during the specified
-                      time range.
-                    </p>
-                    <p className="mt-1">
+                    <p className="font-medium mb-1">Understanding Alert Thresholds</p>
+                    <p>Each time range has two types of thresholds:</p>
+                    <ul className="list-disc pl-5 mt-1 space-y-1">
+                      <li>
+                        <strong>Value Threshold:</strong> The minimum value that triggers an alert (e.g., stake factor,
+                        liability)
+                      </li>
+                      <li>
+                        <strong>Frequency Threshold:</strong> The number of bets within a specific time window that
+                        triggers an alert (e.g., 5 bets every 15 seconds)
+                      </li>
+                    </ul>
+                    <p className="mt-2">
                       Different thresholds can be set for different time ranges before an event starts, allowing for
                       varying sensitivity based on how close the event is to starting.
                     </p>
@@ -768,7 +829,7 @@ export function AlertingConfigurationModal({
                           </div>
                           <div>
                             <div className="flex items-center mb-1">
-                              <label className="block text-sm font-medium">Threshold</label>
+                              <label className="block text-sm font-medium">Value Threshold</label>
                               <TooltipProvider>
                                 <Tooltip>
                                   <TooltipTrigger asChild>
@@ -777,7 +838,9 @@ export function AlertingConfigurationModal({
                                     </Button>
                                   </TooltipTrigger>
                                   <TooltipContent className="max-w-xs">
-                                    <p>The value that triggers an alert when exceeded during this time range.</p>
+                                    <p>
+                                      The minimum value that triggers an alert when exceeded during this time range.
+                                    </p>
                                   </TooltipContent>
                                 </Tooltip>
                               </TooltipProvider>
@@ -811,6 +874,59 @@ export function AlertingConfigurationModal({
                             />
                           </div>
                         </div>
+
+                        {/* New fields for bet frequency */}
+                        <div className="border-t border-gray-200 pt-4 mt-4">
+                          <h5 className="font-medium mb-3">Bet Frequency Threshold</h5>
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="col-span-1">
+                              <label className="block text-sm font-medium mb-1">Number of Bets</label>
+                              <Input
+                                type="number"
+                                value={range.betCountThreshold}
+                                onChange={(e) =>
+                                  handleUpdateTimeRange(range.id, "betCountThreshold", Number(e.target.value))
+                                }
+                                className="w-full"
+                                min={1}
+                              />
+                            </div>
+                            <div className="col-span-1">
+                              <label className="block text-sm font-medium mb-1">Time Window</label>
+                              <Input
+                                type="number"
+                                value={range.timeWindowValue}
+                                onChange={(e) =>
+                                  handleUpdateTimeRange(range.id, "timeWindowValue", Number(e.target.value))
+                                }
+                                className="w-full"
+                                min={1}
+                              />
+                            </div>
+                            <div className="col-span-1">
+                              <label className="block text-sm font-medium mb-1">Unit</label>
+                              <Select
+                                value={range.timeWindowUnit}
+                                onValueChange={(value: TimeWindowUnit) =>
+                                  handleUpdateTimeRange(range.id, "timeWindowUnit", value)
+                                }
+                              >
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select unit" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="seconds">Seconds</SelectItem>
+                                  <SelectItem value="minutes">Minutes</SelectItem>
+                                  <SelectItem value="hours">Hours</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-2">
+                            Alert will trigger if there are {range.betCountThreshold} or more bets within{" "}
+                            {range.timeWindowValue} {range.timeWindowUnit}.
+                          </p>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -843,17 +959,72 @@ export function AlertingConfigurationModal({
                   </div>
 
                   {config.defaultRange.enabled && (
-                    <div>
-                      <label className="block text-sm font-medium mb-1">Default Threshold</label>
-                      <Input
-                        type="number"
-                        value={config.defaultRange.threshold}
-                        onChange={(e) => handleNestedChange("defaultRange", "threshold", Number(e.target.value))}
-                        className="w-full"
-                      />
-                      <p className="text-xs text-gray-500 mt-1">
-                        This threshold will be applied to all bets that don't fall within a defined time range.
-                      </p>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-1">Default Value Threshold</label>
+                        <Input
+                          type="number"
+                          value={config.defaultRange.threshold}
+                          onChange={(e) => handleNestedChange("defaultRange", "threshold", Number(e.target.value))}
+                          className="w-full"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          This threshold will be applied to all bets that don't fall within a defined time range.
+                        </p>
+                      </div>
+
+                      {/* New fields for default bet frequency */}
+                      <div className="border-t border-gray-200 pt-4 mt-4">
+                        <h5 className="font-medium mb-3">Default Bet Frequency Threshold</h5>
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium mb-1">Number of Bets</label>
+                            <Input
+                              type="number"
+                              value={config.defaultRange.betCountThreshold}
+                              onChange={(e) =>
+                                handleNestedChange("defaultRange", "betCountThreshold", Number(e.target.value))
+                              }
+                              className="w-full"
+                              min={1}
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium mb-1">Time Window</label>
+                            <Input
+                              type="number"
+                              value={config.defaultRange.timeWindowValue}
+                              onChange={(e) =>
+                                handleNestedChange("defaultRange", "timeWindowValue", Number(e.target.value))
+                              }
+                              className="w-full"
+                              min={1}
+                            />
+                          </div>
+                          <div className="col-span-1">
+                            <label className="block text-sm font-medium mb-1">Unit</label>
+                            <Select
+                              value={config.defaultRange.timeWindowUnit}
+                              onValueChange={(value: TimeWindowUnit) =>
+                                handleNestedChange("defaultRange", "timeWindowUnit", value)
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select unit" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="seconds">Seconds</SelectItem>
+                                <SelectItem value="minutes">Minutes</SelectItem>
+                                <SelectItem value="hours">Hours</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-2">
+                          Alert will trigger if there are {config.defaultRange.betCountThreshold} or more bets within{" "}
+                          {config.defaultRange.timeWindowValue} {config.defaultRange.timeWindowUnit}.
+                        </p>
+                      </div>
                     </div>
                   )}
                 </div>

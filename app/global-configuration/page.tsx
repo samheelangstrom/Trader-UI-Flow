@@ -12,6 +12,7 @@ import { ConfigurationDetails } from "@/features/configuration/components/Config
 import { ConfigurationFilters } from "@/features/configuration/components/ConfigurationFilters"
 import { useConfigurationState } from "@/features/configuration/hooks/useConfigurationState"
 import { AlertingView } from "@/features/alerting/components/AlertingView"
+import { AutoLineMovementView } from "@/features/auto-line-mover/components/AutoLineMovementView"
 
 // Sample data
 const sampleConfigurations: Configuration[] = [
@@ -174,6 +175,16 @@ export default function GlobalConfigurationPage() {
                   </div>
                   <div
                     className={`p-3 hover:bg-[#f9f9f9] cursor-pointer ${
+                      activeTab === "auto-line-mover"
+                        ? "bg-[#eb6a2e] bg-opacity-10 border-l-4 border-[#eb6a2e] text-[#eb6a2e] font-medium pl-2"
+                        : ""
+                    }`}
+                    onClick={() => setActiveTab("auto-line-mover")}
+                  >
+                    Auto Line Mover
+                  </div>
+                  <div
+                    className={`p-3 hover:bg-[#f9f9f9] cursor-pointer ${
                       activeTab === "suspension-settings"
                         ? "bg-[#eb6a2e] bg-opacity-10 border-l-4 border-[#eb6a2e] text-[#eb6a2e] font-medium pl-2"
                         : ""
@@ -291,6 +302,8 @@ export default function GlobalConfigurationPage() {
 
                 {/* Alerting Content */}
                 {activeTab === "alerting" && <AlertingView />}
+
+                {activeTab === "auto-line-mover" && <AutoLineMovementView />}
 
                 {/* Other tabs content would go here */}
                 {activeTab === "audit-log" && (

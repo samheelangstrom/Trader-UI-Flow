@@ -27,11 +27,59 @@ export default function GamePage() {
     handicap: false,
     matchTotal: false,
     teamTotal: false,
-    lebronJames: true,
+    lebronJames: false,
+    anthonyDavis: false,
+    jaysonTatum: false,
+    jaylenBrown: false,
+    russellWestbrook: false,
+    marcusSmart: false,
     playerMilestones: false,
     rebounds: false,
     assists: false,
     threePointers: false,
+    // Sub-sections for each player
+    lebronJamesMarkets: true,
+    lebronJamesMilestones: false,
+    lebronJamesMatchups: false,
+    lebronJamesCombined: false,
+    lebronJamesMatchupHandicap: false,
+    lebronJamesMost: false,
+    lebronJamesRace: false,
+    anthonyDavisMarkets: true,
+    anthonyDavisMilestones: false,
+    anthonyDavisMatchups: false,
+    anthonyDavisCombined: false,
+    anthonyDavisMatchupHandicap: false,
+    anthonyDavisMost: false,
+    anthonyDavisRace: false,
+    jaysonTatumMarkets: true,
+    jaysonTatumMilestones: false,
+    jaysonTatumMatchups: false,
+    jaysonTatumCombined: false,
+    jaysonTatumMatchupHandicap: false,
+    jaysonTatumMost: false,
+    jaysonTatumRace: false,
+    jaylenBrownMarkets: true,
+    jaylenBrownMilestones: false,
+    jaylenBrownMatchups: false,
+    jaylenBrownCombined: false,
+    jaylenBrownMatchupHandicap: false,
+    jaylenBrownMost: false,
+    jaylenBrownRace: false,
+    russellWestbrookMarkets: true,
+    russellWestbrookMilestones: false,
+    russellWestbrookMatchups: false,
+    russellWestbrookCombined: false,
+    russellWestbrookMatchupHandicap: false,
+    russellWestbrookMost: false,
+    russellWestbrookRace: false,
+    marcusSmartMarkets: true,
+    marcusSmartMilestones: false,
+    marcusSmartMatchups: false,
+    marcusSmartCombined: false,
+    marcusSmartMatchupHandicap: false,
+    marcusSmartMost: false,
+    marcusSmartRace: false,
   })
 
   const [expandedMarketClass, setExpandedMarketClass] = useState(null)
@@ -1102,7 +1150,7 @@ export default function GamePage() {
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
-                <span className="font-medium">Active Markets</span>
+                <span className="font-medium">This Fixture</span>
               </div>
             </div>
 
@@ -1141,6 +1189,38 @@ export default function GamePage() {
               </div>
               <div className="flex items-center gap-1">
                 <span
+                  className={`px-2 py-1 rounded ${activeMarketFilter === "player-markets" ? "bg-[#2b2c2d] text-white" : "border border-[#dcdddf]"}`}
+                  onClick={() => setActiveMarketFilter("player-markets")}
+                >
+                  Player Markets
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span
+                  className={`px-2 py-1 rounded ${activeMarketFilter === "player-matchup" ? "bg-[#2b2c2d] text-white" : "border border-[#dcdddf]"}`}
+                  onClick={() => setActiveMarketFilter("player-matchup")}
+                >
+                  Player Matchup
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span
+                  className={`px-2 py-1 rounded ${activeMarketFilter === "player-milestone" ? "bg-[#2b2c2d] text-white" : "border border-[#dcdddf]"}`}
+                  onClick={() => setActiveMarketFilter("player-milestone")}
+                >
+                  Player Milestone
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span
+                  className={`px-2 py-1 rounded ${activeMarketFilter === "player-race" ? "bg-[#2b2c2d] text-white" : "border border-[#dcdddf]"}`}
+                  onClick={() => setActiveMarketFilter("player-race")}
+                >
+                  Player Race
+                </span>
+              </div>
+              <div className="flex items-center gap-1">
+                <span
                   className={`px-2 py-1 rounded ${activeMarketFilter === "most" ? "bg-[#2b2c2d] text-white" : "border border-[#dcdddf]"}`}
                   onClick={() => setActiveMarketFilter("most")}
                 >
@@ -1170,669 +1250,1954 @@ export default function GamePage() {
           </div>
 
           {/* Fixture Markets */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
+          {(activeMarketFilter === "all" || activeMarketFilter === "fixture") && (
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-4">
                 <h2 className="font-medium">Fixture Markets</h2>
-                <span className="text-xs px-1.5 py-0.5 bg-[#62c11e] text-white rounded">NEW</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex border border-[#dcdddf] rounded overflow-hidden">
-                  <button className="px-2 py-1 text-xs bg-[#2b2c2d] text-white">ALL</button>
-                  <button className="px-2 py-1 text-xs">1st Half</button>
-                  <button className="px-2 py-1 text-xs">2nd Half</button>
-                  <button className="px-2 py-1 text-xs">1st Quarter</button>
-                  <button className="px-2 py-1 text-xs">2nd Quarter</button>
-                  <button className="px-2 py-1 text-xs">3rd Quarter</button>
-                  <button className="px-2 py-1 text-xs">4th Quarter</button>
+                <div className="flex items-center gap-2">
+                  <div className="flex border border-[#dcdddf] rounded overflow-hidden">
+                    <button className="px-2 py-1 text-xs bg-[#2b2c2d] text-white">Match</button>
+                    <button className="px-2 py-1 text-xs">1st Half</button>
+                    <button className="px-2 py-1 text-xs">2nd Half</button>
+                    <button className="px-2 py-1 text-xs">1st Quarter</button>
+                    <button className="px-2 py-1 text-xs">2nd Quarter</button>
+                    <button className="px-2 py-1 text-xs">3rd Quarter</button>
+                    <button className="px-2 py-1 text-xs">4th Quarter</button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Moneyline Section */}
-            <div className="mb-4">
-              <div
-                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
-                onClick={() => toggleSection("moneyline")}
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${!expandedSections.moneyline ? "-rotate-90" : ""}`}
-                />
-                <span className="font-medium">Moneyline</span>
-                <span className="text-xs px-1.5 py-0.5 bg-[#62c11e] text-white rounded">NEW</span>
+              {/* Moneyline Section */}
+              <div className="border border-[#dcdddf] rounded-md mb-4 overflow-hidden">
+                <div
+                  className="flex items-center justify-between bg-white p-3 cursor-pointer hover:bg-gray-50"
+                  onClick={() => toggleSection("moneyline")}
+                >
+                  <div className="flex items-center">
+                    <ChevronDown
+                      className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.moneyline ? "-rotate-90" : ""}`}
+                    />
+                    <span className="font-medium">Moneyline</span>
+                    <span className="ml-2 text-sm text-gray-500">Match</span>
+                  </div>
+                </div>
+                {expandedSections.moneyline && (
+                  <div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Line
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Output
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Sim Competitor Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Rec. Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Liability
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              % SF
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          <tr>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Los Angeles Lakers</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Boston Celtics</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {expandedSections.moneyline && (
-                <div className="border-x border-b border-[#dcdddf] rounded-b">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                        <th className="py-2 px-4 text-left">Line</th>
-                        <th className="py-2 px-4 text-center">Output</th>
-                        <th className="py-2 px-4 text-center">Sim</th>
-                        <th className="py-2 px-4 text-center">Competitor Price</th>
-                        <th className="py-2 px-4 text-center">Rec. Price</th>
-                        <th className="py-2 px-4 text-center">Liability</th>
-                        <th className="py-2 px-4 text-center">% SP</th>
-                        <th className="py-2 px-4 text-center">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Los Angeles Lakers</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">27</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Boston Celtics</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">22</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colSpan="8" className="text-right py-2 px-4">
-                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
-                            See All
-                          </a>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+              {/* Handicap Section */}
+              <div className="border border-[#dcdddf] rounded-md mb-4 overflow-hidden">
+                <div
+                  className="flex items-center justify-between bg-white p-3 cursor-pointer hover:bg-gray-50"
+                  onClick={() => toggleSection("handicap")}
+                >
+                  <div className="flex items-center">
+                    <ChevronDown
+                      className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.handicap ? "-rotate-90" : ""}`}
+                    />
+                    <span className="font-medium">Handicap</span>
+                    <span className="ml-2 text-sm text-gray-500">Match</span>
+                  </div>
+                  <span className="text-sm text-blue-600 hover:text-blue-800">See All</span>
                 </div>
-              )}
-            </div>
-
-            {/* Handicap Section */}
-            <div className="mb-4">
-              <div
-                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
-                onClick={() => toggleSection("handicap")}
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${!expandedSections.handicap ? "-rotate-90" : ""}`}
-                />
-                <span className="font-medium">Handicap</span>
+                {expandedSections.handicap && (
+                  <div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Line
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Output
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Sim Competitor Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Rec. Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Liability
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              % SF
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          <tr>
+                            <td
+                              className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10 LAL</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-10 BOS</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {expandedSections.handicap && (
-                <div className="border-x border-b border-[#dcdddf] rounded-b">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                        <th className="py-2 px-4 text-left">Line</th>
-                        <th className="py-2 px-4 text-center">Output</th>
-                        <th className="py-2 px-4 text-center">Sim</th>
-                        <th className="py-2 px-4 text-center">Competitor Price</th>
-                        <th className="py-2 px-4 text-center">Rec. Price</th>
-                        <th className="py-2 px-4 text-center">Liability</th>
-                        <th className="py-2 px-4 text-center">% SP</th>
-                        <th className="py-2 px-4 text-center">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Los Angeles Lakers -5.5</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">27</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Boston Celtics +5.5</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">22</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colSpan="8" className="text-right py-2 px-4">
-                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
-                            See All
-                          </a>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+              {/* Match Total Section */}
+              <div className="border border-[#dcdddf] rounded-md mb-4 overflow-hidden">
+                <div
+                  className="flex items-center justify-between bg-white p-3 cursor-pointer hover:bg-gray-50"
+                  onClick={() => toggleSection("matchTotal")}
+                >
+                  <div className="flex items-center">
+                    <ChevronDown
+                      className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.matchTotal ? "-rotate-90" : ""}`}
+                    />
+                    <span className="font-medium">Match Total</span>
+                    <span className="ml-2 text-sm text-gray-500">Match</span>
+                  </div>
+                  <span className="text-sm text-blue-600 hover:text-blue-800">See All</span>
                 </div>
-              )}
-            </div>
-
-            {/* Match Total Section */}
-            <div className="mb-4">
-              <div
-                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
-                onClick={() => toggleSection("matchTotal")}
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${!expandedSections.matchTotal ? "-rotate-90" : ""}`}
-                />
-                <span className="font-medium">Match Total</span>
+                {expandedSections.matchTotal && (
+                  <div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Line
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Selection
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Output
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Sim Competitor Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Rec. Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Liability
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              % SF
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          <tr>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">234.5</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">O</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">234.5</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">U</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {expandedSections.matchTotal && (
-                <div className="border-x border-b border-[#dcdddf] rounded-b">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                        <th className="py-2 px-4 text-left">Line</th>
-                        <th className="py-2 px-4 text-center">Output</th>
-                        <th className="py-2 px-4 text-center">Sim</th>
-                        <th className="py-2 px-4 text-center">Competitor Price</th>
-                        <th className="py-2 px-4 text-center">Rec. Price</th>
-                        <th className="py-2 px-4 text-center">Liability</th>
-                        <th className="py-2 px-4 text-center">% SP</th>
-                        <th className="py-2 px-4 text-center">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Over 220.5</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">27</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Under 220.5</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-
-                        <td className="py-2 px-4 text-center">1.234</td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colSpan="8" className="text-right py-2 px-4">
-                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
-                            See All
-                          </a>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
+              {/* Team Total Section */}
+              <div className="border border-[#dcdddf] rounded-md mb-4 overflow-hidden">
+                <div
+                  className="flex items-center justify-between bg-white p-3 cursor-pointer hover:bg-gray-50"
+                  onClick={() => toggleSection("teamTotal")}
+                >
+                  <div className="flex items-center">
+                    <ChevronDown
+                      className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.teamTotal ? "-rotate-90" : ""}`}
+                    />
+                    <span className="font-medium">Team Total</span>
+                    <span className="ml-2 text-sm text-gray-500">Match</span>
+                  </div>
+                  <span className="text-sm text-blue-600 hover:text-blue-800">See All</span>
                 </div>
-              )}
-            </div>
+                {expandedSections.teamTotal && (
+                  <div>
+                    {/* Los Angeles Lakers */}
+                    <div className="bg-gray-50 px-6 py-2 text-sm font-medium">Los Angeles Lakers</div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Line
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Selection
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Output
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Sim Competitor Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Rec. Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Liability
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              % SF
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          <tr>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">234.5</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">O</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">234.5</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">U</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
 
-            {/* Team Total Section */}
-            <div className="mb-4">
-              <div
-                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
-                onClick={() => toggleSection("teamTotal")}
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${!expandedSections.teamTotal ? "-rotate-90" : ""}`}
-                />
-                <span className="font-medium">Team Total</span>
+                    {/* Boston Celtics */}
+                    <div className="bg-gray-50 px-6 py-2 text-sm font-medium">Boston Celtics</div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-100">
+                          <tr>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Line
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Selection
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Output
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Sim Competitor Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Rec. Price
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Liability
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              % SF
+                            </th>
+                            <th
+                              scope="col"
+                              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                            >
+                              Status
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          <tr>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">234.5</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">O</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                          <tr className="bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">234.5</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">U</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
               </div>
-
-              {expandedSections.teamTotal && (
-                <div className="border-x border-b border-[#dcdddf] rounded-b">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                        <th className="py-2 px-4 text-left">Line</th>
-                        <th className="py-2 px-4 text-center">Output</th>
-                        <th className="py-2 px-4 text-center">Sim</th>
-                        <th className="py-2 px-4 text-center">Competitor Price</th>
-                        <th className="py-2 px-4 text-center">Rec. Price</th>
-                        <th className="py-2 px-4 text-center">Liability</th>
-                        <th className="py-2 px-4 text-center">% SP</th>
-                        <th className="py-2 px-4 text-center">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Lakers Over 110.5</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">27</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">Lakers Under 110.5</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">22</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#62c11e] text-white rounded-full text-xs">OPEN</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colSpan="8" className="text-right py-2 px-4">
-                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
-                            See All
-                          </a>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              )}
             </div>
-          </div>
+          )}
 
           {/* Player Markets */}
-          <div className="mb-8">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2">
-                <h2 className="font-medium">Player Markets</h2>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="flex border border-[#dcdddf] rounded overflow-hidden">
-                  <button className="px-2 py-1 text-xs bg-[#2b2c2d] text-white">ALL</button>
-                  <button className="px-2 py-1 text-xs">Lakers</button>
-                  <button className="px-2 py-1 text-xs">Celtics</button>
+          {(activeMarketFilter === "all" ||
+            activeMarketFilter === "player" ||
+            activeMarketFilter === "player-markets" ||
+            activeMarketFilter === "player-matchup" ||
+            activeMarketFilter === "player-milestone" ||
+            activeMarketFilter === "player-race" ||
+            activeMarketFilter === "most" ||
+            activeMarketFilter === "combined") && (
+            <div className="mb-8">
+              <div className="border border-[#dcdddf] rounded-md overflow-hidden">
+                {/* LeBron James Section */}
+                <div
+                  className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer"
+                  onClick={() => toggleSection("lebronJames")}
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJames ? "-rotate-90" : ""}`}
+                  />
+                  <span className="font-medium">LeBron James</span>
                 </div>
-              </div>
-            </div>
+                {expandedSections.lebronJames && (
+                  <div>
+                    {/* Player Markets Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesMarkets")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMarkets ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Markets</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesMarkets && activeMarketFilter === "all" || activeMarketFilter === "player-markets" && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Points
+                              </td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Rebounds
+                              </td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-            {/* LeBron James Section */}
-            <div className="mb-4">
-              <div
-                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
-                onClick={() => toggleSection("lebronJames")}
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${!expandedSections.lebronJames ? "-rotate-90" : ""}`}
-                />
-                <span className="font-medium">LeBron James</span>
-                <span className="text-xs px-1.5 py-0.5 bg-[#F44336] text-white rounded">SUSPENDED</span>
-              </div>
+                    {/* Player Race Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesRace")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesRace ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Race</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesRace && (activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Race</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Race to 20 Points
+                              </td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Race to 30 Points
+                              </td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-              {expandedSections.lebronJames && (
-                <div className="border-x border-b border-[#dcdddf] rounded-b">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                        <th className="py-2 px-4 text-left">Line</th>
-                        <th className="py-2 px-4 text-center">Output</th>
-                        <th className="py-2 px-4 text-center">Sim</th>
-                        <th className="py-2 px-4 text-center">Competitor Price</th>
-                        <th className="py-2 px-4 text-center">Rec. Price</th>
-                        <th className="py-2 px-4 text-center">Liability</th>
-                        <th className="py-2 px-4 text-center">% SP</th>
-                        <th className="py-2 px-4 text-center">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">LeBron James Over 25.5 Points</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">27</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#F44336] text-white rounded-full text-xs">SUSPENDED</span>
-                        </td>
-                      </tr>
-                      <tr className="border-b border-[#dcdddf]">
-                        <td className="py-2 px-4">LeBron James Under 25.5 Points</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">1.234</td>
-                        <td className="py-2 px-4 text-center">30,202.11</td>
-                        <td className="py-2 px-4 text-center">22</td>
-                        <td className="py-2 px-4 text-center">
-                          <span className="px-2 py-0.5 bg-[#F44336] text-white rounded-full text-xs">SUSPENDED</span>
-                        </td>
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colSpan="8" className="text-right py-2 px-4">
-                          <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d]">
-                            See All
-                          </a>
-                        </td>
-                      </tr>
-                    </tfoot>
-                  </table>
-                </div>
-              )}
-            </div>
+                    {/* Player Most Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesMost")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMost ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Most</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesMost && (activeMarketFilter === "all" || activeMarketFilter === "most") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Most</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Points
+                              </td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Rebounds
+                              </td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-            {/* Player Milestones Section */}
-            <div className="mb-4">
-              <div
-                className="flex items-center gap-2 bg-[#f1f2f3] p-2 rounded-t border border-[#dcdddf] cursor-pointer"
-                onClick={() => toggleSection("playerMilestones")}
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${!expandedSections.playerMilestones ? "-rotate-90" : ""}`}
-                />
-                <span className="font-medium">Player Milestones</span>
-              </div>
+                    {/* Player Milestones Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesMilestones")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMilestones ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Milestones</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesMilestones && (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Milestone</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Double Double
+                              </td>
+                              <td className="p-3 text-center">Yes</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">No</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Triple Double
+                              </td>
+                              <td className="p-3 text-center">Yes</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">No</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-              {expandedSections.playerMilestones && (
-                <div className="border-x border-b border-[#dcdddf] rounded-b p-4">
-                  <p className="text-sm text-[#5f6368]">Player milestone markets will be displayed here.</p>
-                </div>
-              )}
-            </div>
-          </div>
+                    {/* Player Matchups Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesMatchups")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMatchups ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Matchups</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesMatchups && (activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Matchup</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                LeBron James vs Jayson Tatum - Points
+                              </td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                LeBron James vs Jaylen Brown - Rebounds
+                              </td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jaylen Brown</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-          {/* Alert Details Modal */}
-          {showAlertDetailsModal && selectedAlert && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg w-full max-w-2xl">
-                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
-                  <h3 className="text-lg font-medium">Alert Details</h3>
-                  <button onClick={closeAlertDetailsModal} className="text-[#5f6368] hover:text-[#2b2c2d]">
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <div className="p-4">
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Market</p>
-                      <p className="font-medium">{selectedAlert.market}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Market ID</p>
-                      <p className="font-medium">{selectedAlert.details.marketId}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Fixture</p>
-                      <p className="font-medium">
-                        {selectedAlert.homeTeam} vs {selectedAlert.awayTeam}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Timestamp</p>
-                      <p className="font-medium">{selectedAlert.details.timestamp}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Trigger Reason</p>
-                      <p className="font-medium">{selectedAlert.details.triggerReason}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Liability</p>
-                      <p className="font-medium">{selectedAlert.details.liability}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Stake Factor</p>
-                      <p className="font-medium">{selectedAlert.details.stakeFactor}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Risk Level</p>
-                      <p className="font-medium">{selectedAlert.details.riskLevel}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-[#5f6368] mb-1">Previous Alerts</p>
-                      <p className="font-medium">{selectedAlert.details.previousAlerts}</p>
-                    </div>
+                    {/* Player Combined Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "combined") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesCombined")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesCombined ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Combined</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesCombined && (activeMarketFilter === "all" || activeMarketFilter === "combined") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Players</th>
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                LeBron James & Anthony Davis
+                              </td>
+                              <td className="p-3">45.5</td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"></td>
+                              <td className="p-3">45.5</td>
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                LeBron James & Russell Westbrook
+                              </td>
+                              <td className="p-3">12.5</td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"></td>
+                              <td className="p-3">12.5</td>
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {/* Player Matchup Handicap Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("lebronJamesMatchupHandicap")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMatchupHandicap ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Matchup Handicap</span>
+                      </div>
+                    )}
+                    {expandedSections.lebronJamesMatchupHandicap && (activeMarketFilter === "all" || activeMarketFilter === "player") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Matchup</th>
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Points
+                              </td>
+                              <td className="p-3">1.5</td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"> -1.5</td>
+                              <td className="p-3"></td>
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Rebounds
+                              </td>
+                              <td className="p-3">1.5</td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"> -1.5</td>
+                              <td className="p-3"></td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
+                )}
 
-                  <div className="mb-4">
-                    <p className="text-sm text-[#5f6368] mb-1">Price Comparison</p>
-                    <table className="w-full text-sm border-collapse">
-                      <thead>
-                        <tr className="bg-[#f1f2f3]">
-                          <th className="p-2 text-left font-medium">Type</th>
-                          <th className="p-2 text-left font-medium">Value</th>
-                          <th className="p-2 text-left font-medium">Difference</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr className="border-b border-[#dcdddf]">
-                          <td className="p-2">Taken Price</td>
-                          <td className="p-2">{selectedAlert.taken}</td>
-                          <td className="p-2">-</td>
-                        </tr>
-                        <tr className="border-b border-[#dcdddf]">
-                          <td className="p-2">Current Price</td>
-                          <td className="p-2">{selectedAlert.current}</td>
-                          <td className="p-2">0.00%</td>
-                        </tr>
-                        <tr className="border-b border-[#dcdddf]">
-                          <td className="p-2">Market Average</td>
-                          <td className="p-2">{selectedAlert.marketAv}</td>
-                          <td className="p-2 text-[#F44336]">+9.08%</td>
-                        </tr>
-                        <tr>
-                          <td className="p-2">Competitor Price</td>
-                          <td className="p-2">{selectedAlert.comp}</td>
-                          <td className="p-2 text-[#F44336]">+18.17%</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <div className="mb-4">
-                    <p className="text-sm text-[#5f6368] mb-1">Recommendation</p>
-                    <p className="p-2 bg-[#f1f2f3] rounded">{selectedAlert.recommendation}</p>
-                  </div>
-
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={closeAlertDetailsModal}
-                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
-                    >
-                      Close
-                    </button>
-                    <button
-                      onClick={() => {
-                        closeAlertDetailsModal()
-                        openAcceptPreview(selectedAlert, { stopPropagation: () => {} })
-                      }}
-                      className="px-4 py-2 bg-[#62c11e] text-white rounded hover:bg-[#52a119]"
-                    >
-                      Accept Recommendation
-                    </button>
-                  </div>
+                {/* Anthony Davis Section */}
+                <div
+                  className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer"
+                  onClick={() => toggleSection("anthonyDavis")}
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavis ? "-rotate-90" : ""}`}
+                  />
+                  <span className="font-medium">Anthony Davis</span>
                 </div>
-              </div>
-            </div>
-          )}
+                {expandedSections.anthonyDavis && (
+                  <div>
+                    {/* Player Markets Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisMarkets")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMarkets ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Markets</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisMarkets && (activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Points
+                              </td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Rebounds
+                              </td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-          {/* Accept Preview Modal */}
-          {showAcceptPreview && alertForAction && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg w-full max-w-md">
-                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
-                  <h3 className="text-lg font-medium">Accept Price Change</h3>
-                  <button onClick={closeActionModals} className="text-[#5f6368] hover:text-[#2b2c2d]">
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <div className="p-4">
-                  <p className="mb-4">
-                    You are about to change the price for <strong>{alertForAction.market}</strong> from{" "}
-                    <strong>{alertForAction.current}</strong> to{" "}
-                    <strong>{extractRecommendedPrice(alertForAction.recommendation)}</strong>.
-                  </p>
+                    {/* Player Race Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisRace")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisRace ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Race</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisRace && (activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Race</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Race to 20 Points
+                              </td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Race to 30 Points
+                              </td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-                  <div className="mb-4">
-                    <div className="flex justify-between mb-2">
-                      <span>Current Price:</span>
-                      <span className="font-medium">{alertForAction.current}</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                      <span>New Price:</span>
-                      <span className="font-medium">{extractRecommendedPrice(alertForAction.recommendation)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Change:</span>
-                      <span className="font-medium text-[#eb6a2e]">
-                        {(
-                          ((Number.parseFloat(extractRecommendedPrice(alertForAction.recommendation)) -
-                            Number.parseFloat(alertForAction.current)) /
-                            Number.parseFloat(alertForAction.current)) *
-                          100
-                        ).toFixed(2)}
-                        %
-                      </span>
-                    </div>
+                    {/* Player Most Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisMost")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMost ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Most</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisMost && (activeMarketFilter === "all" || activeMarketFilter === "most") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Most</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Points
+                              </td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Rebounds
+                              </td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {/* Player Milestones Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisMilestones")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMilestones ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Milestones</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisMilestones && (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Milestone</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Double Double
+                              </td>
+                              <td className="p-3 text-center">Yes</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">No</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Triple Double
+                              </td>
+                              <td className="p-3 text-center">Yes</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">No</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {/* Player Matchups Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisMatchups")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMatchups ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Matchups</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisMatchups && (activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Matchup</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Anthony Davis vs Jayson Tatum - Points
+                              </td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Anthony Davis vs Jaylen Brown - Rebounds
+                              </td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Jaylen Brown</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {/* Player Combined Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "combined") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisCombined")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisCombined ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Combined</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisCombined && (activeMarketFilter === "all" || activeMarketFilter === "combined") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Players</th>
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Anthony Davis & LeBron James
+                              </td>
+                              <td className="p-3">45.5</td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"></td>
+                              <td className="p-3">45.5</td>
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Anthony Davis & Russell Westbrook
+                              </td>
+                              <td className="p-3">12.5</td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"></td>
+                              <td className="p-3">12.5</td>
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+
+                    {/* Player Matchup Handicap Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("anthonyDavisMatchupHandicap")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMatchupHandicap ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Matchup Handicap</span>
+                      </div>
+                    )}
+                    {expandedSections.anthonyDavisMatchupHandicap && (activeMarketFilter === "all" || activeMarketFilter === "player") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Matchup</th>
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Points
+                              </td>
+                              <td className="p-3">1.5</td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"> -1.5</td>
+                              <td className="p-3"></td>
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Rebounds
+                              </td>
+                              <td className="p-3">1.5</td>
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3"> -1.5</td>
+                              <td className="p-3"></td>
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
+                )}
 
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={closeActionModals}
-                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={confirmAccept}
-                      className="px-4 py-2 bg-[#62c11e] text-white rounded hover:bg-[#52a119]"
-                    >
-                      Confirm Change
-                    </button>
-                  </div>
+                {/* Jayson Tatum Section */}
+                <div
+                  className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer"
+                  onClick={() => toggleSection("jaysonTatum")}
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatum ? "-rotate-90" : ""}`}
+                  />
+                  <span className="font-medium">Jayson Tatum</span>
                 </div>
-              </div>
-            </div>
-          )}
+                {expandedSections.jaysonTatum && (
+                  <div>
+                    {/* Player Markets Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("jaysonTatumMarkets")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumMarkets ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Markets</span>
+                      </div>
+                    )}
+                    {expandedSections.jaysonTatumMarkets && (activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Line</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Points
+                              </td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Rebounds
+                              </td>
+                              <td className="p-3 text-center">O</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">U</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-          {/* Suspend Confirmation Modal */}
-          {showSuspendConfirmation && alertForAction && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg w-full max-w-md">
-                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
-                  <h3 className="text-lg font-medium">Suspend Market</h3>
-                  <button onClick={closeActionModals} className="text-[#5f6368] hover:text-[#2b2c2d]">
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <div className="p-4">
-                  <p className="mb-4">
-                    You are about to suspend the market <strong>{alertForAction.market}</strong>. This will prevent any
-                    new bets from being placed on this market.
-                  </p>
+                    {/* Player Race Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("jaysonTatumRace")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumRace ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Race</span>
+                      </div>
+                    )}
+                    {expandedSections.jaysonTatumRace && (activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Race</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Race to 20 Points
+                              </td>
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Race to 30 Points
+                              </td>
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-                  <div className="mb-4">
-                    <div className="flex justify-between mb-2">
-                      <span>Market:</span>
-                      <span className="font-medium">{alertForAction.market}</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                      <span>Current Status:</span>
-                      <span className="font-medium">Active</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>New Status:</span>
-                      <span className="font-medium text-[#F44336]">Suspended</span>
-                    </div>
-                  </div>
+                    {/* Player Most Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("jaysonTatumMost")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumMost ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Most</span>
+                      </div>
+                    )}
+                    {expandedSections.jaysonTatumMost && (activeMarketFilter === "all" || activeMarketFilter === "most") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Most</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Points
+                              </td>
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">LeBron James</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Most Rebounds
+                              </td>
+                              <td className="p-3 text-center">Jayson Tatum</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">Anthony Davis</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
 
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={closeActionModals}
-                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={confirmSuspend}
-                      className="px-4 py-2 bg-[#FFC107] text-white rounded hover:bg-[#e6af06]"
-                    >
-                      Confirm Suspension
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Dismiss Confirmation Modal */}
-          {showDismissConfirmation && alertForAction && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-              <div className="bg-white rounded-lg w-full max-w-md">
-                <div className="flex items-center justify-between p-4 border-b border-[#dcdddf]">
-                  <h3 className="text-lg font-medium">Dismiss Alert</h3>
-                  <button onClick={closeActionModals} className="text-[#5f6368] hover:text-[#2b2c2d]">
-                    <X className="h-5 w-5" />
-                  </button>
-                </div>
-                <div className="p-4">
-                  <p className="mb-4">
-                    You are about to dismiss the alert for <strong>{alertForAction.market}</strong>. This will remove
-                    the alert from your list.
-                  </p>
-
-                  <div className="mb-4">
-                    <div className="flex justify-between mb-2">
-                      <span>Alert ID:</span>
-                      <span className="font-medium">{alertForAction.id}</span>
-                    </div>
-                    <div className="flex justify-between mb-2">
-                      <span>Market:</span>
-                      <span className="font-medium">{alertForAction.market}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Recommendation:</span>
-                      <span className="font-medium">{alertForAction.recommendation}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={closeActionModals}
-                      className="px-4 py-2 border border-[#dcdddf] rounded hover:bg-[#f9f9f9]"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={confirmDismiss}
-                      className="px-4 py-2 bg-[#F44336] text-white rounded hover:bg-[#d32f2f]"
-                    >
-                      Confirm Dismissal
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  )
-}
+                    {/* Player Milestones Sub-section */}
+                    {(activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                      <div
+                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toggleSection("jaysonTatumMilestones")
+                        }}
+                      >
+                        <ChevronDown
+                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumMilestones ? "-rotate-90" : ""}`}
+                        />
+                        <span className="font-medium">Player Milestones</span>
+                      </div>
+                    )}
+                    {expandedSections.jaysonTatumMilestones && (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                              <th className="text-left p-3 font-medium">Milestone</th>
+                              <th className="text-center p-3 font-medium">Selection</th>
+                              <th className="text-center p-3 font-medium">Output</th>
+                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                              <th className="text-center p-3 font-medium">Rec. Price</th>
+                              <th className="text-center p-3 font-medium">Liability</th>
+                              <th className="text-center p-3 font-medium">% SF</th>
+                              <th className="text-center p-3 font-medium">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Double Double
+                              </td>
+                              <td className="p-3 text-center">Yes</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                              <td className="p-3 text-center">No</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">1.234</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                              <td className="p-3 text-center">-</td>
+                            </tr>
+                            <tr className="border-b border-[#dcdddf]">
+                              <td className="p-3" rowSpan={2}>
+                                Triple Double
+                              </td>
+\

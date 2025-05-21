@@ -1,6 +1,7 @@
 export type SportType = "basketball" | "football" | "baseball" | "hockey" | "soccer" | "all"
 export type SelectionType = "all" | "single" | "multiple"
 export type AlertType = "custom" | "arb" | "sharp" | "value" | "alm"
+export type TimeWindowUnit = "seconds" | "minutes" | "hours"
 
 export interface TimeRange {
   id: string
@@ -9,6 +10,10 @@ export interface TimeRange {
   endMinutes: number
   threshold: number
   enabled: boolean
+  // New fields for bet frequency and volume
+  betCountThreshold: number
+  timeWindowValue: number
+  timeWindowUnit: TimeWindowUnit
 }
 
 export interface AlertingConfiguration {
@@ -41,6 +46,10 @@ export interface AlertingConfiguration {
   defaultRange: {
     threshold: number
     enabled: boolean
+    // New fields for default range
+    betCountThreshold: number
+    timeWindowValue: number
+    timeWindowUnit: TimeWindowUnit
   }
   expirationSettings: {
     timeToExpire: number // in seconds, 0 means never expire
