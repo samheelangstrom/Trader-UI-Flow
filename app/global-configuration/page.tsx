@@ -2,17 +2,13 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Plus, ClipboardList, Bell } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Sidebar from "@/components/sidebar"
 import TopNavigation from "@/components/top-navigation"
 import { ConfigurationModal, type Configuration } from "@/components/ConfigurationModal"
-import { ConfigurationTable } from "@/features/configuration/components/ConfigurationTable"
 import { ConfigurationDetails } from "@/features/configuration/components/ConfigurationDetails"
-import { ConfigurationFilters } from "@/features/configuration/components/ConfigurationFilters"
 import { useConfigurationState } from "@/features/configuration/hooks/useConfigurationState"
-import { AlertingView } from "@/features/alerting/components/AlertingView"
 import { AutoLineMovementView } from "@/features/auto-line-mover/components/AutoLineMovementView"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Sample data
 const sampleConfigurations: Configuration[] = [
@@ -154,7 +150,7 @@ export default function GlobalConfigurationPage() {
               <div className="bg-white rounded-md overflow-hidden">
                 <div className="p-3 bg-[#f1f2f3] font-medium">Settings</div>
                 <div className="divide-y divide-[#dcdddf]">
-                  <div
+                  {/* <div
                     className={`p-3 hover:bg-[#f9f9f9] cursor-pointer ${activeTab === "configured-markets" ? "bg-[#eb6a2e] bg-opacity-10 border-l-4 border-[#eb6a2e] text-[#eb6a2e] font-medium pl-2" : ""}`}
                     onClick={() => setActiveTab("configured-markets")}
                   >
@@ -225,7 +221,7 @@ export default function GlobalConfigurationPage() {
                     onClick={() => setActiveTab("margin")}
                   >
                     Margin
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -233,14 +229,51 @@ export default function GlobalConfigurationPage() {
             {/* Content Area */}
             <div className="flex-1">
               <div className="bg-white rounded-md overflow-hidden">
+                <div className="container mx-auto p-4">
+                  {/* <h1 className="text-2xl font-bold mb-6">Global Configuration</h1> */}
+
+                  <Tabs defaultValue="auto-line-mover" className="w-full">
+                    <TabsList className="mb-4">
+                      <TabsTrigger value="auto-line-mover">Auto Line Mover</TabsTrigger>
+                      <TabsTrigger value="alerting">Alerting</TabsTrigger>
+                      <TabsTrigger value="margins">Margins</TabsTrigger>
+                      <TabsTrigger value="suspensions">Suspensions</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="auto-line-mover">
+                      <AutoLineMovementView />
+                    </TabsContent>
+
+                    <TabsContent value="alerting">
+                      <div className="p-4 border rounded-md">
+                        <h2 className="text-xl font-bold mb-2">Alerting Configuration</h2>
+                        <p className="text-gray-500">Configure global alerting settings</p>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="margins">
+                      <div className="p-4 border rounded-md">
+                        <h2 className="text-xl font-bold mb-2">Margins Configuration</h2>
+                        <p className="text-gray-500">Configure global margin settings</p>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="suspensions">
+                      <div className="p-4 border rounded-md">
+                        <h2 className="text-xl font-bold mb-2">Suspensions Configuration</h2>
+                        <p className="text-gray-500">Configure global suspension settings</p>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </div>
                 {/* Configured Markets Content */}
-                {activeTab === "configured-markets" && (
+                {/* {activeTab === "configured-markets" && (
                   <>
                     {/* Filter Section */}
-                    <ConfigurationFilters onFilterChange={setFilters} />
+                {/* <ConfigurationFilters onFilterChange={setFilters} /> */}
 
-                    {/* Action Bar */}
-                    <div className="p-4 flex justify-between items-center">
+                {/* Action Bar */}
+                {/* <div className="p-4 flex justify-between items-center">
                       <div className="flex gap-4">
                         <Select defaultValue="all">
                           <SelectTrigger className="w-[180px]">
@@ -289,24 +322,24 @@ export default function GlobalConfigurationPage() {
                         <Plus className="h-4 w-4" />
                         <span>Add Configuration</span>
                       </button>
-                    </div>
+                    </div> */}
 
-                    {/* Table */}
-                    <ConfigurationTable
+                {/* Table */}
+                {/* <ConfigurationTable
                       configurations={filteredConfigurations}
                       onEdit={handleEditConfig}
                       onViewDetails={handleViewDetails}
                     />
                   </>
-                )}
+                )} */}
 
                 {/* Alerting Content */}
-                {activeTab === "alerting" && <AlertingView />}
+                {/* {activeTab === "alerting" && <AlertingView />} */}
 
-                {activeTab === "auto-line-mover" && <AutoLineMovementView />}
+                {/* {activeTab === "auto-line-mover" && <AutoLineMovementView />} */}
 
                 {/* Other tabs content would go here */}
-                {activeTab === "audit-log" && (
+                {/* {activeTab === "audit-log" && (
                   <div className="p-4">
                     <div className="mb-4">
                       <h2 className="text-xl font-bold">Audit Log</h2>
@@ -414,23 +447,23 @@ export default function GlobalConfigurationPage() {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
 
-                {activeTab === "suspension-settings" && (
+                {/* {activeTab === "suspension-settings" && (
                   <div className="p-8 text-center">
                     <h2 className="text-xl font-bold mb-4">Suspension Settings</h2>
                     <p className="text-[#5f6368]">Suspension settings content will be displayed here.</p>
                   </div>
-                )}
+                )} */}
 
-                {activeTab === "security-settings" && (
+                {/* {activeTab === "security-settings" && (
                   <div className="p-8 text-center">
                     <h2 className="text-xl font-bold mb-4">Security Settings</h2>
                     <p className="text-[#5f6368]">Security settings content will be displayed here.</p>
                   </div>
-                )}
+                )} */}
 
-                {activeTab === "margin" && (
+                {/* {activeTab === "margin" && (
                   <div className="p-6">
                     <div className="flex justify-between items-center mb-6">
                       <h2 className="text-xl font-bold">Margin Configuration</h2>
@@ -547,7 +580,7 @@ export default function GlobalConfigurationPage() {
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
           </div>
