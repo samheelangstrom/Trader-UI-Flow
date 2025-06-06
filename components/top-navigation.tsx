@@ -128,11 +128,11 @@ export default function TopNavigation({
                     Global Configuration
                   </Link>
                   <Link
-                    href="/alerts"
+                    href="/model-configuration"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => setIsSettingsOpen(false)}
                   >
-                    Alerts
+                    Model Config
                   </Link>
                   <div
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"

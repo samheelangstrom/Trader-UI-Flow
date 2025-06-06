@@ -1,221 +1,96 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight, HomeIcon, Plus, Star, Calendar, X } from "lucide-react"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { useState } from "react"
 
-export default function Sidebar({
-  pinnedFixtures = [],
-  addFixture = () => {},
-  removeFixture = () => {},
-  condensed = false,
-}) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(condensed)
-
-  useEffect(() => {
-    // Check if there's a saved state in localStorage
-    const savedState = localStorage.getItem("sidebarCollapsed")
-    if (savedState !== null) {
-      setIsSidebarCollapsed(savedState === "true")
-    }
-  }, [])
+const Sidebar = () => {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
   const toggleSidebar = () => {
-    const newState = !isSidebarCollapsed
-    setIsSidebarCollapsed(newState)
-    localStorage.setItem("sidebarCollapsed", String(newState))
+    setIsSidebarCollapsed(!isSidebarCollapsed)
   }
 
   return (
     <div
-      className={`border-r border-[#dcdddf] flex-shrink-0 transition-all duration-300 ${isSidebarCollapsed ? "w-[60px]" : "w-[180px]"}`}
+      className={`border-r border-[#dcdddf] flex-shrink-0 transition-all duration-300 ${
+        isSidebarCollapsed ? "w-[60px]" : "w-[220px]"
+      }`}
     >
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-2">
-            <HomeIcon className="h-5 w-5" />
-            {!isSidebarCollapsed && <span className="font-medium">Home</span>}
-          </div>
-          <button onClick={toggleSidebar} className="text-[#5f6368] hover:text-[#2b2c2d]">
-            {isSidebarCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+      <div className="h-full flex flex-col">
+        <div className="p-3">
+          <button
+            onClick={toggleSidebar}
+            className="w-full text-left text-sm hover:bg-gray-100 rounded py-2 px-3 transition-colors duration-200"
+          >
+            {isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           </button>
         </div>
 
-        {!isSidebarCollapsed && (
-          <>
-            <div className="mb-4">
-              <div className="text-xs text-[#5f6368] mb-2">PINNED</div>
-              <div className="space-y-2">
-                {pinnedFixtures.map((fixture) => (
-                  <div key={fixture.id} className="flex items-center justify-between text-sm group">
-                    <div>
-                      {fixture.homeTeam} @ {fixture.awayTeam}
-                    </div>
-                    <div className="flex items-center">
-                      <div className="text-[#62c11e] text-xs">{fixture.status}</div>
-                      <button
-                        onClick={() => removeFixture(fixture.id)}
-                        className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                      >
-                        <X className="h-3 w-3 text-[#5f6368]" />
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <div className="text-xs text-[#5f6368] mb-2">ALL FIXTURES</div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <div>NYG @ DAL</div>
-                  <div className="text-[#62c11e] text-xs">In Play</div>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div>LAL @ BOS</div>
-                  <div className="text-[#62c11e] text-xs">In Play</div>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <div>CHI @ GB</div>
-                  <div className="text-[#62c11e] text-xs">In Play</div>
-                </div>
-              </div>
-            </div>
-
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="flex items-center gap-1 text-sm text-[#5f6368] hover:text-[#2b2c2d]">
-                  <Plus className="h-4 w-4" />
-                  <span>Add fixture</span>
-                </button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Add Fixture</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="sport">Sport</Label>
-                    <Select>
-                      <SelectTrigger id="sport">
-                        <SelectValue placeholder="Select sport" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="mlb">MLB</SelectItem>
-                        <SelectItem value="nba">NBA</SelectItem>
-                        <SelectItem value="nfl">NFL</SelectItem>
-                        <SelectItem value="ncaab">NCAAB</SelectItem>
-                        <SelectItem value="ncaaf">NCAAF</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="home-team">Home Team</Label>
-                    <Select>
-                      <SelectTrigger id="home-team">
-                        <SelectValue placeholder="Select home team" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="lakers">Los Angeles Lakers</SelectItem>
-                        <SelectItem value="celtics">Boston Celtics</SelectItem>
-                        <SelectItem value="warriors">Golden State Warriors</SelectItem>
-                        <SelectItem value="bulls">Chicago Bulls</SelectItem>
-                        <SelectItem value="heat">Miami Heat</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="away-team">Away Team</Label>
-                    <Select>
-                      <SelectTrigger id="away-team">
-                        <SelectValue placeholder="Select away team" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="lakers">Los Angeles Lakers</SelectItem>
-                        <SelectItem value="celtics">Boston Celtics</SelectItem>
-                        <SelectItem value="warriors">Golden State Warriors</SelectItem>
-                        <SelectItem value="bulls">Chicago Bulls</SelectItem>
-                        <SelectItem value="heat">Miami Heat</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label>Status</Label>
-                    <RadioGroup defaultValue="upcoming">
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="upcoming" id="upcoming" />
-                        <Label htmlFor="upcoming">Upcoming</Label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <RadioGroupItem value="in-play" id="in-play" />
-                        <Label htmlFor="in-play">In Play</Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="date">Date</Label>
-                    <input
-                      type="date"
-                      id="date"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    />
-                  </div>
-
-                  <div className="grid gap-2">
-                    <Label htmlFor="time">Time</Label>
-                    <input
-                      type="time"
-                      id="time"
-                      defaultValue="11:00"
-                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end gap-2">
-                  <DialogTrigger asChild>
-                    <Button variant="outline">Cancel</Button>
-                  </DialogTrigger>
-                  <Button
-                    onClick={() => {
-                      addFixture({
-                        id: Date.now(),
-                        homeTeam: "NEW",
-                        awayTeam: "TEAM",
-                        status: "In Play",
-                      })
-                    }}
-                  >
-                    Add to Pinned
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </>
-        )}
-
-        {isSidebarCollapsed && (
-          <div className="flex flex-col items-center gap-4">
-            <button className="p-2 rounded-full hover:bg-[#f1f2f3]">
-              <Star className="h-5 w-5 text-[#5f6368]" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-[#f1f2f3]">
-              <Calendar className="h-5 w-5 text-[#5f6368]" />
-            </button>
-            <button className="p-2 rounded-full hover:bg-[#f1f2f3]">
-              <Plus className="h-5 w-5 text-[#5f6368]" />
-            </button>
+        <div className="flex-grow overflow-y-auto">
+          <div className="p-3">
+            <h6 className="text-xs font-semibold text-gray-500 uppercase mb-2">Main</h6>
+            <ul>
+              <li className="mb-1">
+                <a
+                  href="#"
+                  className="block text-sm hover:bg-gray-100 rounded py-2 px-3 transition-colors duration-200"
+                >
+                  Dashboard
+                </a>
+              </li>
+              <li className="mb-1">
+                <a
+                  href="#"
+                  className="block text-sm hover:bg-gray-100 rounded py-2 px-3 transition-colors duration-200"
+                >
+                  Analytics
+                </a>
+              </li>
+            </ul>
           </div>
-        )}
+
+          <div className="p-3">
+            <h6 className="text-xs font-semibold text-gray-500 uppercase mb-2">ALL FIXTURES</h6>
+            <div>
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-1">
+                  <div className="flex-shrink-0 w-5 h-5 bg-red-500 rounded-sm flex items-center justify-center text-white text-[10px] font-bold">
+                    MA
+                  </div>
+                  <div>NYG @ DAL</div>
+                </div>
+                <div className="text-[#62c11e] text-xs">In Play</div>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-1">
+                  <div className="flex-shrink-0 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+                    MO
+                  </div>
+                  <div>LAL @ BOS</div>
+                </div>
+                <div className="text-[#62c11e] text-xs">In Play</div>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-1">
+                  <div
+                    className="flex-shrink-0 w-5 h-5 bg-red-500 flex items-center justify-center text-white"
+                    style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
+                  >
+                    <span className="text-[10px] font-bold translate-y-1">!</span>
+                  </div>
+                  <div>CHI @ GB</div>
+                </div>
+                <div className="text-[#62c11e] text-xs">In Play</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-3 border-t border-[#dcdddf]">
+          <p className="text-xs text-gray-500">&copy; 2023 Your Company</p>
+        </div>
       </div>
     </div>
   )
 }
+
+export default Sidebar

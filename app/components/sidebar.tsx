@@ -13,7 +13,7 @@ export default function Sidebar({ pinnedFixtures = [], addFixture = () => {}, re
 
   return (
     <div
-      className={`border-r border-[#dcdddf] flex-shrink-0 transition-all duration-300 ${isSidebarCollapsed ? "w-[60px]" : "w-[180px]"}`}
+      className={`border-r border-[#dcdddf] flex-shrink-0 transition-all duration-300 ${isSidebarCollapsed ? "w-[60px]" : "w-[220px]"}`}
     >
       <div className="p-4">
         <div className="flex items-center justify-between mb-6">
@@ -34,22 +34,54 @@ export default function Sidebar({ pinnedFixtures = [], addFixture = () => {}, re
             <div className="mb-4">
               <div className="text-xs text-[#5f6368] mb-2">PINNED</div>
               <div className="space-y-2">
-                {pinnedFixtures.map((fixture) => (
-                  <div key={fixture.id} className="flex items-center justify-between text-sm group">
-                    <div>
-                      {fixture.homeTeam} @ {fixture.awayTeam}
-                    </div>
-                    <div className="flex items-center">
-                      <div className="text-[#62c11e] text-xs">{fixture.status}</div>
-                      <button
-                        onClick={() => removeFixture(fixture.id)}
-                        className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                {pinnedFixtures.map((fixture, index) => {
+                  // Rotate through the three alert types for demonstration
+                  const alertType = index % 3
+                  let alertSymbol
+
+                  if (alertType === 0) {
+                    alertSymbol = (
+                      <div className="flex-shrink-0 w-5 h-5 bg-red-500 rounded-sm flex items-center justify-center text-white text-[10px] font-bold">
+                        MA
+                      </div>
+                    )
+                  } else if (alertType === 1) {
+                    alertSymbol = (
+                      <div className="flex-shrink-0 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+                        MO
+                      </div>
+                    )
+                  } else {
+                    alertSymbol = (
+                      <div
+                        className="flex-shrink-0 w-5 h-5 bg-red-500 flex items-center justify-center text-white"
+                        style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
                       >
-                        <X className="h-3 w-3 text-[#5f6368]" />
-                      </button>
+                        <span className="text-[10px] font-bold translate-y-1">!</span>
+                      </div>
+                    )
+                  }
+
+                  return (
+                    <div key={fixture.id} className="flex items-center justify-between text-sm group">
+                      <div className="flex items-center gap-1">
+                        {alertSymbol}
+                        <div>
+                          {fixture.homeTeam} @ {fixture.awayTeam}
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <div className="text-[#62c11e] text-xs">{fixture.status}</div>
+                        <button
+                          onClick={() => removeFixture(fixture.id)}
+                          className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="h-3 w-3 text-[#5f6368]" />
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
 
@@ -57,15 +89,33 @@ export default function Sidebar({ pinnedFixtures = [], addFixture = () => {}, re
               <div className="text-xs text-[#5f6368] mb-2">ALL FIXTURES</div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
-                  <div>NYG @ DAL</div>
+                  <div className="flex items-center gap-1">
+                    <div className="flex-shrink-0 w-5 h-5 bg-red-500 rounded-sm flex items-center justify-center text-white text-[10px] font-bold">
+                      MA
+                    </div>
+                    <div>NYG @ DAL</div>
+                  </div>
                   <div className="text-[#62c11e] text-xs">In Play</div>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <div>LAL @ BOS</div>
+                  <div className="flex items-center gap-1">
+                    <div className="flex-shrink-0 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-[10px] font-bold">
+                      MO
+                    </div>
+                    <div>LAL @ BOS</div>
+                  </div>
                   <div className="text-[#62c11e] text-xs">In Play</div>
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <div>CHI @ GB</div>
+                  <div className="flex items-center gap-1">
+                    <div
+                      className="flex-shrink-0 w-5 h-5 bg-red-500 flex items-center justify-center text-white"
+                      style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
+                    >
+                      <span className="text-[10px] font-bold translate-y-1">!</span>
+                    </div>
+                    <div>CHI @ GB</div>
+                  </div>
                   <div className="text-[#62c11e] text-xs">In Play</div>
                 </div>
               </div>

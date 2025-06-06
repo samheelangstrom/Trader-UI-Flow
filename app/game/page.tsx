@@ -915,233 +915,238 @@ export default function GamePage() {
 
           {/* Alert Information - Only show when alerts tab is active */}
           {scoreboardTab === "alerts" && (
-            <div className="mb-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-4">
-                  <span className="font-medium">This Fixture</span>
-                  <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d] underline">
-                    All Alerts
+            <div className="mb-6 resize-y overflow-auto min-h-[400px] max-h-[800px] border border-[#dcdddf] rounded-md">
+              <div className="flex flex-col h-full p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-4">
+                    <span className="font-medium">This Fixture</span>
+                    <a href="#" className="text-sm text-[#5f6368] hover:text-[#2b2c2d] underline">
+                      All Alerts
+                    </a>
+                  </div>
+                  <a href="/alerts" className="text-sm text-[#5f6368] hover:text-[#2b2c2d] flex items-center">
+                    Go to Alert Hub <ChevronRight className="h-4 w-4 ml-1" />
                   </a>
                 </div>
-                <a href="/alerts" className="text-sm text-[#5f6368] hover:text-[#2b2c2d] flex items-center">
-                  Go to Alert Hub <ChevronRight className="h-4 w-4 ml-1" />
-                </a>
-              </div>
 
-              <div className="bg-white border border-[#dcdddf] rounded-md overflow-hidden">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
-                      <th className="py-3 px-4 text-left font-medium">Alert Information</th>
-                      <th className="py-3 px-4 text-left font-medium">Taken</th>
-                      <th className="py-3 px-4 text-left font-medium">Current</th>
-                      <th className="py-3 px-4 text-left font-medium">Market Av.</th>
-                      <th className="py-3 px-4 text-left font-medium">Comp.</th>
-                      <th className="py-3 px-4 text-left font-medium">Recommendation</th>
-                      <th className="py-3 px-4 text-center font-medium">Actions</th>
-                      <th className="py-3 px-4 text-center font-medium">Details</th>
-                    </tr>
-                  </thead>
-                </table>
-
-                {/* Scrollable alerts container */}
-                <div className="alert-scroller">
+                <div className="bg-white border border-[#dcdddf] rounded-md overflow-hidden flex-1">
                   <table className="w-full text-sm">
-                    <tbody>
-                      {alerts.map((alert) => (
-                        <tr key={alert.id} className="border-b border-[#dcdddf] hover:bg-[#f9f9f9]">
-                          <td className="py-3 px-4">
-                            <div className="flex flex-col gap-1">
-                              <div className="flex items-center gap-2">
-                                {alert.severity === "high" ? (
-                                  <div className="w-6 h-6 flex items-center justify-center bg-red-100 rounded-full">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M12 9v4M12 17h.01"
-                                        stroke="#EF4444"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      />
-                                      <path
-                                        d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                                        stroke="#EF4444"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        fill="#FECACA"
-                                      />
-                                    </svg>
-                                  </div>
-                                ) : alert.severity === "medium" ? (
-                                  <div className="w-6 h-6 flex items-center justify-center bg-orange-100 rounded-full">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M12 9v4M12 17h.01"
-                                        stroke="#F97316"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      />
-                                      <path
-                                        d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                                        stroke="#F97316"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        fill="#FFEDD5"
-                                      />
-                                    </svg>
-                                  </div>
-                                ) : (
-                                  <div className="w-6 h-6 flex items-center justify-center bg-blue-100 rounded-full">
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M12 9v4M12 17h.01"
-                                        stroke="#3B82F6"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                      />
-                                      <path
-                                        d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
-                                        stroke="#3B82F6"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        fill="#DBEAFE"
-                                      />
-                                    </svg>
-                                  </div>
-                                )}
-                                <div className="font-medium">{alert.market}</div>
-                              </div>
-                              <div className="flex items-center gap-2 ml-8">
-                                <span className="inline-flex items-center">
-                                  {alert.homeTeam === "BOS" ||
-                                  alert.awayTeam === "BOS" ||
-                                  alert.homeTeam === "LAL" ||
-                                  alert.awayTeam === "LAL" ||
-                                  alert.homeTeam === "BKN" ||
-                                  alert.awayTeam === "BKN" ? (
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="mr-1"
-                                    >
-                                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
-                                      <path
-                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
-                                        stroke="currentColor"
-                                        strokeWidth="0"
-                                        fill="none"
-                                      />
-                                      <path
-                                        d="M4.93 4.93c-1.41 1.41-2.4 3.16-2.82 5.07h5.1c.18-1.11.53-2.16 1.04-3.09l-3.32-1.98z"
-                                        stroke="currentColor"
-                                        strokeWidth="0.5"
-                                        fill="none"
-                                      />
-                                      <path
-                                        d="M19.07 4.93l-3.32 1.98c.51.93.86 1.98 1.04 3.09h5.1c-.42-1.91-1.41-3.66-2.82-5.07z"
-                                        stroke="currentColor"
-                                        strokeWidth="0.5"
-                                        fill="none"
-                                      />
-                                      <path
-                                        d="M4.93 19.07c1.41 1.41 3.16 2.4 5.07 2.82v-5.1c-1.11-.18-2.16-.53-3.09-1.04l-1.98 3.32z"
-                                        stroke="currentColor"
-                                        strokeWidth="0.5"
-                                        fill="none"
-                                      />
-                                      <path
-                                        d="M19.07 19.07l-1.98-3.32c-.93.51-1.98.86-3.09 1.04v5.1c1.91-.42 3.66-1.41 5.07-2.82z"
-                                        stroke="currentColor"
-                                        strokeWidth="0.5"
-                                        fill="none"
-                                      />
-                                      <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" fill="currentColor" />
-                                    </svg>
-                                  ) : (
-                                    <svg
-                                      width="16"
-                                      height="16"
-                                      viewBox="0 0 24 24"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="mr-1"
-                                    >
-                                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                                    </svg>
-                                  )}
-                                  {alert.homeTeam} v {alert.awayTeam}
-                                </span>
-                                <span className="text-[#5f6368]">10 Oct</span>
-                                <span className="px-2 py-0.5 bg-[#FFC107] text-white rounded-full text-xs">
-                                  {alert.badge}
-                                </span>
-                                <span className="text-[#5f6368]">{alert.time}</span>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="py-3 px-4">{alert.taken}</td>
-                          <td className="py-3 px-4">{alert.current}</td>
-                          <td className="py-3 px-4">{alert.marketAv}</td>
-                          <td className="py-3 px-4">{alert.comp}</td>
-                          <td className="py-3 px-4">{alert.recommendation}</td>
-                          <td className="py-3 px-4">
-                            <div className="flex gap-1">
-                              <button
-                                className="px-2 py-1 bg-[#62c11e] text-white text-xs rounded"
-                                onClick={(e) => openAcceptPreview(alert, e)}
-                              >
-                                Accept
-                              </button>
-                              <button
-                                className="px-2 py-1 bg-[#FFC107] text-white text-xs rounded"
-                                onClick={(e) => openSuspendConfirmation(alert, e)}
-                              >
-                                Suspend
-                              </button>
-                              <button
-                                className="px-2 py-1 bg-[#F44336] text-white text-xs rounded"
-                                onClick={(e) => openDismissConfirmation(alert, e)}
-                              >
-                                Dismiss
-                              </button>
-                            </div>
-                          </td>
-                          <td className="py-3 px-4 text-center">
-                            <button className="text-[#5f6368]" onClick={() => openAlertDetailsModal(alert)}>
-                              <MoreHorizontal className="h-4 w-4" />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
+                    <thead>
+                      <tr className="border-b border-[#dcdddf] bg-[#f1f2f3]">
+                        <th className="py-3 px-4 text-left font-medium">Alert Information</th>
+                        <th className="py-3 px-4 text-left font-medium">Taken</th>
+                        <th className="py-3 px-4 text-left font-medium">Current</th>
+                        <th className="py-3 px-4 text-left font-medium">Market Av.</th>
+                        <th className="py-3 px-4 text-left font-medium">Comp.</th>
+                        <th className="py-3 px-4 text-left font-medium">Recommendation</th>
+                        <th className="py-3 px-4 text-center font-medium">Actions</th>
+                        <th className="py-3 px-4 text-center font-medium">Details</th>
+                      </tr>
+                    </thead>
                   </table>
+
+                  {/* Scrollable alerts container */}
+                  <div className="alert-scroller flex-1 overflow-y-auto">
+                    <table className="w-full text-sm">
+                      <tbody>
+                        {alerts.map((alert) => (
+                          <tr key={alert.id} className="border-b border-[#dcdddf] hover:bg-[#f9f9f9]">
+                            <td className="py-3 px-4">
+                              <div className="flex flex-col gap-1">
+                                <div className="flex items-center gap-2">
+                                  {alert.severity === "high" ? (
+                                    <div className="w-6 h-6 flex items-center justify-center bg-red-100 rounded-full">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M12 9v4M12 17h.01"
+                                          stroke="#EF4444"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                        <path
+                                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
+                                          stroke="#EF4444"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          fill="#FECACA"
+                                        />
+                                      </svg>
+                                    </div>
+                                  ) : alert.severity === "medium" ? (
+                                    <div className="w-6 h-6 flex items-center justify-center bg-orange-100 rounded-full">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M12 9v4M12 17h.01"
+                                          stroke="#F97316"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                        <path
+                                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
+                                          stroke="#F97316"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          fill="#FFEDD5"
+                                        />
+                                      </svg>
+                                    </div>
+                                  ) : (
+                                    <div className="w-6 h-6 flex items-center justify-center bg-blue-100 rounded-full">
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                      >
+                                        <path
+                                          d="M12 9v4M12 17h.01"
+                                          stroke="#3B82F6"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                        />
+                                        <path
+                                          d="M10.24 3.95L2.51 17.72c-.7 1.21-.11 2.75 1.3 2.75h16.38c1.41 0 2-1.54 1.3-2.75L13.76 3.95c-.71-1.21-2.83-1.21-3.52 0z"
+                                          stroke="#3B82F6"
+                                          strokeWidth="2"
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          fill="#DBEAFE"
+                                        />
+                                      </svg>
+                                    </div>
+                                  )}
+                                  <div className="font-medium">{alert.market}</div>
+                                </div>
+                                <div className="flex items-center gap-2 ml-8">
+                                  <span className="inline-flex items-center">
+                                    {alert.homeTeam === "BOS" ||
+                                    alert.awayTeam === "BOS" ||
+                                    alert.homeTeam === "LAL" ||
+                                    alert.awayTeam === "LAL" ||
+                                    alert.homeTeam === "BKN" ||
+                                    alert.awayTeam === "BKN" ? (
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="mr-1"
+                                      >
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5" />
+                                        <path
+                                          d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"
+                                          stroke="currentColor"
+                                          strokeWidth="0"
+                                          fill="none"
+                                        />
+                                        <path
+                                          d="M4.93 4.93c-1.41 1.41-2.4 3.16-2.82 5.07h5.1c.18-1.11.53-2.16 1.04-3.09l-3.32-1.98z"
+                                          stroke="currentColor"
+                                          strokeWidth="0.5"
+                                          fill="none"
+                                        />
+                                        <path
+                                          d="M19.07 4.93l-3.32 1.98c.51.93.86 1.98 1.04 3.09h5.1c-.42-1.91-1.41-3.66-2.82-5.07z"
+                                          stroke="currentColor"
+                                          strokeWidth="0.5"
+                                          fill="none"
+                                        />
+                                        <path
+                                          d="M4.93 19.07c1.41 1.41 3.16 2.4 5.07 2.82v-5.1c-1.11-.18-2.16-.53-3.09-1.04l-1.98 3.32z"
+                                          stroke="currentColor"
+                                          strokeWidth="0.5"
+                                          fill="none"
+                                        />
+                                        <path
+                                          d="M19.07 19.07l-1.98-3.32c-.93.51-1.98.86-3.09 1.04v5.1c1.91-.42 3.66-1.41 5.07-2.82z"
+                                          stroke="currentColor"
+                                          strokeWidth="0.5"
+                                          fill="none"
+                                        />
+                                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" fill="currentColor" />
+                                      </svg>
+                                    ) : (
+                                      <svg
+                                        width="16"
+                                        height="16"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="mr-1"
+                                      >
+                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    )}
+                                    {alert.homeTeam} v {alert.awayTeam}
+                                  </span>
+                                  <span className="text-[#5f6368]">10 Oct</span>
+                                  <span className="px-2 py-0.5 bg-[#FFC107] text-white rounded-full text-xs">
+                                    {alert.badge}
+                                  </span>
+                                  <span className="text-[#5f6368]">{alert.time}</span>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4">{alert.taken}</td>
+                            <td className="py-3 px-4">{alert.current}</td>
+                            <td className="py-3 px-4">{alert.marketAv}</td>
+                            <td className="py-3 px-4">{alert.comp}</td>
+                            <td className="py-3 px-4">{alert.recommendation}</td>
+                            <td className="py-3 px-4">
+                              <div className="flex gap-1">
+                                <button
+                                  className="px-2 py-1 bg-[#62c11e] text-white text-xs rounded"
+                                  onClick={(e) => openAcceptPreview(alert, e)}
+                                >
+                                  Accept
+                                </button>
+                                <button
+                                  className="px-2 py-1 bg-[#FFC107] text-white text-xs rounded"
+                                  onClick={(e) => openSuspendConfirmation(alert, e)}
+                                >
+                                  Suspend
+                                </button>
+                                <button
+                                  className="px-2 py-1 bg-[#F44336] text-white text-xs rounded"
+                                  onClick={(e) => openDismissConfirmation(alert, e)}
+                                >
+                                  Dismiss
+                                </button>
+                              </div>
+                            </td>
+                            <td className="py-3 px-4 text-center">
+                              <button className="text-[#5f6368]" onClick={() => openAlertDetailsModal(alert)}>
+                                <MoreHorizontal className="h-4 w-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              </div>
+              <div className="h-3 bg-[#f1f2f3] border-t border-[#dcdddf] cursor-ns-resize flex items-center justify-center">
+                <div className="w-8 h-1 bg-[#dcdddf] rounded-full"></div>
               </div>
             </div>
           )}
@@ -1424,8 +1429,7 @@ export default function GamePage() {
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
                           <tr>
-                            <td
-                              className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10 LAL</td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10 LAL</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1.234</td>
                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">-</td>
@@ -1769,228 +1773,71 @@ export default function GamePage() {
                         <span className="font-medium">Player Markets</span>
                       </div>
                     )}
-                    {expandedSections.lebronJamesMarkets && activeMarketFilter === "all" || activeMarketFilter === "player-markets" && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Points
-                              </td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Rebounds
-                              </td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Race Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("lebronJamesRace")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesRace ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Race</span>
-                      </div>
-                    )}
-                    {expandedSections.lebronJamesRace && (activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Race</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Race to 20 Points
-                              </td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Race to 30 Points
-                              </td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Most Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("lebronJamesMost")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMost ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Most</span>
-                      </div>
-                    )}
-                    {expandedSections.lebronJamesMost && (activeMarketFilter === "all" || activeMarketFilter === "most") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Most</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Points
-                              </td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Rebounds
-                              </td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
+                    {(expandedSections.lebronJamesMarkets && activeMarketFilter === "all") ||
+                      (activeMarketFilter === "player-markets" && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                                <th className="text-left p-3 font-medium">Line</th>
+                                <th className="text-center p-3 font-medium">Selection</th>
+                                <th className="text-center p-3 font-medium">Output</th>
+                                <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                                <th className="text-center p-3 font-medium">Rec. Price</th>
+                                <th className="text-center p-3 font-medium">Liability</th>
+                                <th className="text-center p-3 font-medium">% SF</th>
+                                <th className="text-center p-3 font-medium">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr className="border-b border-[#dcdddf]">
+                                <td className="p-3" rowSpan={2}>
+                                  Points
+                                </td>
+                                <td className="p-3 text-center">O</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                              <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                                <td className="p-3 text-center">U</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                              <tr className="border-b border-[#dcdddf]">
+                                <td className="p-3" rowSpan={2}>
+                                  Rebounds
+                                </td>
+                                <td className="p-3 text-center">O</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                              <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                                <td className="p-3 text-center">U</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      ))}
 
                     {/* Player Milestones Sub-section */}
                     {(activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
@@ -2007,1197 +1854,807 @@ export default function GamePage() {
                         <span className="font-medium">Player Milestones</span>
                       </div>
                     )}
-                    {expandedSections.lebronJamesMilestones && (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Milestone</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Double Double
-                              </td>
-                              <td className="p-3 text-center">Yes</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">No</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Triple Double
-                              </td>
-                              <td className="p-3 text-center">Yes</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">No</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Matchups Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("lebronJamesMatchups")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMatchups ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Matchups</span>
-                      </div>
-                    )}
-                    {expandedSections.lebronJamesMatchups && (activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Matchup</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                LeBron James vs Jayson Tatum - Points
-                              </td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                LeBron James vs Jaylen Brown - Rebounds
-                              </td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jaylen Brown</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Combined Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "combined") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("lebronJamesCombined")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesCombined ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Combined</span>
-                      </div>
-                    )}
-                    {expandedSections.lebronJamesCombined && (activeMarketFilter === "all" || activeMarketFilter === "combined") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Players</th>
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                LeBron James & Anthony Davis
-                              </td>
-                              <td className="p-3">45.5</td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"></td>
-                              <td className="p-3">45.5</td>
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                LeBron James & Russell Westbrook
-                              </td>
-                              <td className="p-3">12.5</td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"></td>
-                              <td className="p-3">12.5</td>
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Matchup Handicap Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("lebronJamesMatchupHandicap")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.lebronJamesMatchupHandicap ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Matchup Handicap</span>
-                      </div>
-                    )}
-                    {expandedSections.lebronJamesMatchupHandicap && (activeMarketFilter === "all" || activeMarketFilter === "player") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Matchup</th>
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Points
-                              </td>
-                              <td className="p-3">1.5</td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"> -1.5</td>
-                              <td className="p-3"></td>
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Rebounds
-                              </td>
-                              <td className="p-3">1.5</td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"> -1.5</td>
-                              <td className="p-3"></td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
+                    {expandedSections.lebronJamesMilestones &&
+                      (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
+                        <div className="overflow-x-auto">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                                <th className="text-left p-3 font-medium">Milestone</th>
+                                <th className="text-center p-3 font-medium">Selection</th>
+                                <th className="text-center p-3 font-medium">Output</th>
+                                <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                                <th className="text-center p-3 font-medium">Rec. Price</th>
+                                <th className="text-center p-3 font-medium">Liability</th>
+                                <th className="text-center p-3 font-medium">% SF</th>
+                                <th className="text-center p-3 font-medium">Status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr className="border-b border-[#dcdddf]">
+                                <td className="p-3" rowSpan={2}>
+                                  Double Double
+                                </td>
+                                <td className="p-3 text-center">Yes</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                              <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                                <td className="p-3 text-center">No</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                              <tr className="border-b border-[#dcdddf]">
+                                <td className="p-3" rowSpan={2}>
+                                  Triple Double\
+                                </td>
+                                <td className="p-3 text-center">Yes</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                              <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                                <td className="p-3 text-center">No</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">1.234</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                                <td className="p-3 text-center">-</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      )}
                   </div>
                 )}
+              </div>
+            </div>
+          )}
 
-                {/* Anthony Davis Section */}
-                <div
-                  className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer"
-                  onClick={() => toggleSection("anthonyDavis")}
-                >
-                  <ChevronDown
-                    className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavis ? "-rotate-90" : ""}`}
-                  />
-                  <span className="font-medium">Anthony Davis</span>
+          {/* Player Race Markets - Separate Market Class */}
+          {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
+            <div className="mb-4">
+              <div className="border border-[#dcdddf] rounded-md overflow-hidden">
+                <div className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3">
+                  <span className="font-medium">Player Race Markets</span>
                 </div>
-                {expandedSections.anthonyDavis && (
-                  <div>
-                    {/* Player Markets Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisMarkets")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMarkets ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Markets</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisMarkets && (activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Points
-                              </td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Rebounds
-                              </td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Race Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisRace")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisRace ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Race</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisRace && (activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Race</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Race to 20 Points
-                              </td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Race to 30 Points
-                              </td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Most Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisMost")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMost ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Most</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisMost && (activeMarketFilter === "all" || activeMarketFilter === "most") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Most</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Points
-                              </td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Rebounds
-                              </td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Milestones Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisMilestones")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMilestones ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Milestones</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisMilestones && (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Milestone</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Double Double
-                              </td>
-                              <td className="p-3 text-center">Yes</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">No</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Triple Double
-                              </td>
-                              <td className="p-3 text-center">Yes</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">No</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Matchups Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisMatchups")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMatchups ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Matchups</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisMatchups && (activeMarketFilter === "all" || activeMarketFilter === "player-matchup") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Matchup</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Anthony Davis vs Jayson Tatum - Points
-                              </td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Anthony Davis vs Jaylen Brown - Rebounds
-                              </td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Jaylen Brown</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Combined Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "combined") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisCombined")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisCombined ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Combined</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisCombined && (activeMarketFilter === "all" || activeMarketFilter === "combined") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Players</th>
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Anthony Davis & LeBron James
-                              </td>
-                              <td className="p-3">45.5</td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"></td>
-                              <td className="p-3">45.5</td>
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Anthony Davis & Russell Westbrook
-                              </td>
-                              <td className="p-3">12.5</td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"></td>
-                              <td className="p-3">12.5</td>
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Matchup Handicap Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("anthonyDavisMatchupHandicap")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.anthonyDavisMatchupHandicap ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Matchup Handicap</span>
-                      </div>
-                    )}
-                    {expandedSections.anthonyDavisMatchupHandicap && (activeMarketFilter === "all" || activeMarketFilter === "player") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Matchup</th>
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Points
-                              </td>
-                              <td className="p-3">1.5</td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"> -1.5</td>
-                              <td className="p-3"></td>
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Rebounds
-                              </td>
-                              <td className="p-3">1.5</td>
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3"> -1.5</td>
-                              <td className="p-3"></td>
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {/* Jayson Tatum Section */}
-                <div
-                  className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer"
-                  onClick={() => toggleSection("jaysonTatum")}
-                >
-                  <ChevronDown
-                    className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatum ? "-rotate-90" : ""}`}
-                  />
-                  <span className="font-medium">Jayson Tatum</span>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                        <th className="text-left p-3 font-medium">Points</th>
+                        <th className="text-center p-3 font-medium">Selection</th>
+                        <th className="text-center p-3 font-medium">Output</th>
+                        <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                        <th className="text-center p-3 font-medium">Rec. Price</th>
+                        <th className="text-center p-3 font-medium">Liability</th>
+                        <th className="text-center p-3 font-medium">% SF</th>
+                        <th className="text-center p-3 font-medium">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3" rowSpan={11}>
+                          Race to 15 Points
+                        </td>
+                        <td className="p-3 text-center">None</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">LeBron James</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Anthony Davis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Jayson Tatum</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Jaylen Brown</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Russell Westbrook</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Marcus Smart</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Kristaps Porzingis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Derrick White</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Austin Reaves</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Al Horford</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3" rowSpan={11}>
+                          Race to 20 Points
+                        </td>
+                        <td className="p-3 text-center">None</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">LeBron James</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Anthony Davis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Jayson Tatum</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Jaylen Brown</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Russell Westbrook</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Marcus Smart</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Kristaps Porzingis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Derrick White</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Austin Reaves</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Al Horford</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3" rowSpan={11}>
+                          Race to 30 Points
+                        </td>
+                        <td className="p-3 text-center">None</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">LeBron James</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Anthony Davis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Jayson Tatum</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Jaylen Brown</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Russell Westbrook</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Marcus Smart</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Kristaps Porzingis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Derrick White</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Austin Reaves</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Al Horford</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-                {expandedSections.jaysonTatum && (
-                  <div>
-                    {/* Player Markets Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("jaysonTatumMarkets")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumMarkets ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Markets</span>
-                      </div>
-                    )}
-                    {expandedSections.jaysonTatumMarkets && (activeMarketFilter === "all" || activeMarketFilter === "player-markets") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Line</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Points
-                              </td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Rebounds
-                              </td>
-                              <td className="p-3 text-center">O</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">U</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
+              </div>
+            </div>
+          )}
 
-                    {/* Player Race Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("jaysonTatumRace")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumRace ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Race</span>
-                      </div>
-                    )}
-                    {expandedSections.jaysonTatumRace && (activeMarketFilter === "all" || activeMarketFilter === "player-race") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Race</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Race to 20 Points
-                              </td>
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Race to 30 Points
-                              </td>
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Most Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("jaysonTatumMost")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumMost ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Most</span>
-                      </div>
-                    )}
-                    {expandedSections.jaysonTatumMost && (activeMarketFilter === "all" || activeMarketFilter === "most") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Most</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Points
-                              </td>
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">LeBron James</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Most Rebounds
-                              </td>
-                              <td className="p-3 text-center">Jayson Tatum</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">Anthony Davis</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    {/* Player Milestones Sub-section */}
-                    {(activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
-                      <div
-                        className="bg-[#f9f9f9] border-b border-[#dcdddf] p-3 flex items-center cursor-pointer pl-6"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          toggleSection("jaysonTatumMilestones")
-                        }}
-                      >
-                        <ChevronDown
-                          className={`h-4 w-4 mr-2 transition-transform ${!expandedSections.jaysonTatumMilestones ? "-rotate-90" : ""}`}
-                        />
-                        <span className="font-medium">Player Milestones</span>
-                      </div>
-                    )}
-                    {expandedSections.jaysonTatumMilestones && (activeMarketFilter === "all" || activeMarketFilter === "player-milestone") && (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                          <thead>
-                            <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
-                              <th className="text-left p-3 font-medium">Milestone</th>
-                              <th className="text-center p-3 font-medium">Selection</th>
-                              <th className="text-center p-3 font-medium">Output</th>
-                              <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
-                              <th className="text-center p-3 font-medium">Rec. Price</th>
-                              <th className="text-center p-3 font-medium">Liability</th>
-                              <th className="text-center p-3 font-medium">% SF</th>
-                              <th className="text-center p-3 font-medium">Status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Double Double
-                              </td>
-                              <td className="p-3 text-center">Yes</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
-                              <td className="p-3 text-center">No</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">1.234</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                              <td className="p-3 text-center">-</td>
-                            </tr>
-                            <tr className="border-b border-[#dcdddf]">
-                              <td className="p-3" rowSpan={2}>
-                                Triple Double
-                              </td>
-\
+          {/* Player Most Markets - Separate Market Class */}
+          {(activeMarketFilter === "all" || activeMarketFilter === "most") && (
+            <div className="mb-4">
+              <div className="border border-[#dcdddf] rounded-md overflow-hidden">
+                <div className="bg-[#f1f2f3] border-b border-[#dcdddf] p-3">
+                  <span className="font-medium">Player Most Markets</span>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-[#f1f2f3] border-b border-[#dcdddf]">
+                        <th className="text-left p-3 font-medium">Stat Type</th>
+                        <th className="text-center p-3 font-medium">Selection</th>
+                        <th className="text-center p-3 font-medium">Output</th>
+                        <th className="text-center p-3 font-medium">Sim. Competitor Price</th>
+                        <th className="text-center p-3 font-medium">Rec. Price</th>
+                        <th className="text-center p-3 font-medium">Liability</th>
+                        <th className="text-center p-3 font-medium">% SF</th>
+                        <th className="text-center p-3 font-medium">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3" rowSpan={11}>
+                          Most Points
+                        </td>
+                        <td className="p-3 text-center">None</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">LeBron James</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Anthony Davis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Jayson Tatum</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Jaylen Brown</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Russell Westbrook</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Marcus Smart</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Kristaps Porzingis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Derrick White</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Austin Reaves</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Al Horford</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3" rowSpan={11}>
+                          Most Rebounds
+                        </td>
+                        <td className="p-3 text-center">None</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">LeBron James</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Anthony Davis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Jayson Tatum</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Jaylen Brown</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Russell Westbrook</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Marcus Smart</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Kristaps Porzingis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Derrick White</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Austin Reaves</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Al Horford</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3" rowSpan={11}>
+                          Most Assists
+                        </td>
+                        <td className="p-3 text-center">None</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">LeBron James</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Anthony Davis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Jayson Tatum</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Jaylen Brown</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Russell Westbrook</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Marcus Smart</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Kristaps Porzingis</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Derrick White</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf] bg-[#f9f9f9]">
+                        <td className="p-3 text-center">Austin Reaves</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                      <tr className="border-b border-[#dcdddf]">
+                        <td className="p-3 text-center">Al Horford</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">1.234</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                        <td className="p-3 text-center">-</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
